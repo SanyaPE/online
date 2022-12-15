@@ -1,0 +1,21 @@
+/* _-_-_- utils/VARIABLES -_-_-_ */
+
+$color-hover: #4b9200;
+
+
+$max-width: 1920px !default;
+
+$breakpoints: (
+  "mobile": (
+    max-width: 570px,
+  ),
+  "small": (
+    max-width: 766px,
+  ),
+  "medium": (
+    max-width: 991px,
+  ),
+  "large": (
+    max-width: 1199px,
+  )
+) !default;
