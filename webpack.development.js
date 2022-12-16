@@ -1,17 +1,15 @@
-/* eslint-disable prettier/prettier */
-const webpack = require('webpack')
+const webpack = require('webpack');
 
 module.exports = {
     mode: 'development',
     devtool: 'source-map',
     devServer: {
-        port:8081,
+        port: 8081,
         static: './dist',
     },
-    plugins:[
+    plugins: [
         new webpack.SourceMapDevToolPlugin({
-            filename: '[file].map'
-        })
-
-    ]
+            filename: '[file].map',
+        }),
+    ],
 };
