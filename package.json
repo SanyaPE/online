@@ -7,7 +7,7 @@
     "scripts": {
         "start": "webpack serve --open --config ./webpack.config.js",
         "watch": "webpack watch",
-        "build": "webpack --progress --config ./webpack.config.js",
+        "build": "cross-env NODE_ENV=production webpack --progress --config ./webpack.config.js",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --fix"
     },
@@ -35,7 +35,12 @@
         "eslint-webpack-plugin": "^3.2.0",
         "file-loader": "^6.2.0",
         "html-webpack-plugin": "^5.2.0",
+        "mini-css-extract-plugin": "^2.7.2",
+        "postcss": "^8.4.20",
+        "postcss-loader": "^7.0.2",
         "prettier": "2.2.1",
+        "sass": "^1.57.0",
+        "sass-loader": "^13.2.0",
         "style-loader": "^2.0.0",
         "ts-loader": "^9.4.2",
         "typescript": "^4.9.4",
