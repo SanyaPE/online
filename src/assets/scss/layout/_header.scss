@@ -1,4 +1,9 @@
 /* _-_-_- layout/HEADER -_-_-_ */
 .header{
     background-color: #000000;
+    &__container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }

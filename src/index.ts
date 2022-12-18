@@ -1,2 +1,6 @@
+import App from './components/app';
 import './assets/scss/main.scss';
-console.log('HELLO');
+
+const a = new App();
+console.log(a);
+a.init();

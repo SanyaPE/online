@@ -3,8 +3,11 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-  .container {
+}
+main{
+  flex: 1;
+}
+.container {
     max-width: $max-width;
     margin-left: auto;
     margin-right: auto;
@@ -24,4 +27,4 @@ body {
       padding-left: 10rem;
       padding-right: 10rem;
     }
-  }
+}
