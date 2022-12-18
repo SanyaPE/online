@@ -1,5 +1,7 @@
 import { IApp, IUrlRoutersItem, IUrlRouters } from './models';
 import urlRoutes from './urlRoutes';
+import * as Temp from './temp.json';
+let a = Temp;
 
 class App implements IApp {
     urlRoutes: IUrlRouters = urlRoutes;
@@ -32,6 +34,10 @@ class App implements IApp {
         this.elements.main = document.getElementById('main');
         this.elements.main.innerHTML = html;
         console.log(this.elements.main);
+        this.temp();
+    }
+    temp() {
+        console.log(a[0]);
     }
 }
 export default App;
