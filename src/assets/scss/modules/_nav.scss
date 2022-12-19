@@ -3,19 +3,28 @@
     &__list {
         display: flex;
         flex-wrap: wrap;
-        gap: 10rem;
+        gap: 5rem;
         width: 100%;
+        @include respond-to("large"){
+          gap: 2rem;
+        }
       }
       &__link {
         text-decoration: none;
         width: 100%;
         height: 100%;
         display: inline-block;
-        @include font(3rem, 140%, 500);
+        @include font(3rem, 100%, 400);
         color: #ffffff;
         text-align: center;
         padding-top: 3rem;
         padding-bottom: 3rem;
+        @include respond-to("medium"){
+          font-size: 2rem;
+        }
+        @include respond-to("mobile"){
+          font-size: 1rem;
+        }
         &:hover{
             color: red;
         }

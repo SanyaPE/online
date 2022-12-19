@@ -7,6 +7,7 @@ class App implements IApp {
     urlRoutes: IUrlRouters = urlRoutes;
     elements: any = {};
     init() {
+        this.urlLocationHandler();
         this.elements.nav = document.querySelector('.nav');
         document.addEventListener('click', (e: Event) => {
             if (!e.target.closest('.nav__item')) return;

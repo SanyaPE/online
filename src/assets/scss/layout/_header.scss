@@ -6,4 +6,13 @@
         justify-content: space-between;
         align-items: center;
     }
+    &__title{
+        @include font(3rem, 100%, 400);
+        @include respond-to("medium"){
+            font-size: 2rem;
+        }
+        @include respond-to("mobile"){
+            font-size: 1rem;
+        }
+    }
 }
