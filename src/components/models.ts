@@ -10,9 +10,9 @@ interface IUrlRoutersItem {
 }
 
 interface IUrlRouters {
-    404: IUrlRoutersItem;
+    '404': IUrlRoutersItem;
     '/': IUrlRoutersItem;
-    '/cart': IUrlRoutersItem;
+    cart: IUrlRoutersItem;
 }
 
 interface IRouter {
