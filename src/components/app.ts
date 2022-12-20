@@ -24,6 +24,9 @@ class App implements IApp {
         const html = await fetch(route.template).then((response) => response.text());
         this.elements.main = document.getElementById('main');
         this.elements.main.innerHTML = html;
+        if (location = '/') {
+            this.cards()
+        }
     }
     cards() {
         console.log(data);
