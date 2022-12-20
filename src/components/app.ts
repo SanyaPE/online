@@ -1,3 +1,5 @@
+import appendCards from './cards';
+import data from './data-base';
 import { IApp, IUrlRoutersItem, IUrlRouters } from './models';
 import urlRoutes from './urlRoutes';
 
@@ -22,6 +24,10 @@ class App implements IApp {
         const html = await fetch(route.template).then((response) => response.text());
         this.elements.main = document.getElementById('main');
         this.elements.main.innerHTML = html;
+    }
+    cards() {
+        console.log(data);
+        appendCards(data)
     }
 }
 export default App;

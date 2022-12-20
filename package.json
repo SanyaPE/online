@@ -3,7 +3,6 @@
     "name": "online-store",
     "version": "1.0.0",
     "description": "",
-    "type": "module",
     "main": "webpack.base.config.js",
     "scripts": {
         "start": "webpack serve --open --config ./webpack.config.js",

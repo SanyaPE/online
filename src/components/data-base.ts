@@ -1,4 +1,4 @@
-interface Data {
+export interface infoData {
     id: number;
     title: string;
     description: string;
@@ -11,7 +11,7 @@ interface Data {
     thumbnail: string;
     images: string[];
 }
-const data: Data[] = [
+const data: infoData[] = [
     {
         "id": 1,
         "title": "iPhone 9",
