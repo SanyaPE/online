@@ -1,5 +1,5 @@
 import data from './data-base.js';
-import { infoData } from './data-base.js';
+import { Data } from './data-base.js';
 
 // class Card {
 //     id: number;
@@ -29,7 +29,7 @@ import { infoData } from './data-base.js';
 
 // }
 
-function createCard(obj: infoData) {
+function createCard(obj: Data) {
     const cardElem = document.createElement('div');
     const cardName = document.createElement('div');
     const infoElem = document.createElement('div');
@@ -48,7 +48,7 @@ function createCard(obj: infoData) {
     return cardElem
 }
 
-function appendCards(data: infoData[]) {
+function appendCards(data: Data[]) {
     data.forEach((obj) => {
         let cardElem = createCard(obj);
         console.log(cardElem);
