@@ -1,0 +1,44 @@
+$bg-title: rgba(24,26,28,.8);
+$card-border: 1px solid peru;
+.card{
+    position: relative;
+    padding-bottom: 1rem;
+    border: $card-border;
+    font-size: 80%;
+    border-radius: 1rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 13vw;
+    &__title{
+        background: $bg-title;
+        text-align: center;
+        white-space: nowrap;
+        padding: 0 2%;
+    }
+    &__info{
+        font-size: .6vw;
+        background-color: rgba(68, 45, 10, 0.61);
+        width: 50%;
+        height: fit-content;
+        
+    }
+    &__btns{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        height: 1.7vw;
+        margin-bottom: 0.5rem;
+        justify-content: space-around;
+        font-size: .9em;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        & button{
+            border: $card-border;
+            border-radius: 1rem;
+            background-color: rgb(167, 99, 32);
+            color: white;
+        }
+    }
+}

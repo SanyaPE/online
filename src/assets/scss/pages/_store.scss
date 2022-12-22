@@ -1,10 +1,135 @@
 /* _-_-_- pages/START -_-_-_ */
+
+$border: 1px solid peru;
+$bg-title: black;
+
 .store{
     display: flex;
+    font-size: calc(.2rem + 1vw);;
     justify-content: flex-start;
     align-items: flex-start;
     flex: 1;
     &__container{
-
+        display: flex;
+        width: 100%;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        justify-content: space-between;
     }
+}
+
+.filters {
+    width: 25%;
+    border: $border;
+    padding: 0.3% 0.5%;
+    border-radius: 1rem;
+    height: fit-content;
+}
+.filters__btns{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2%;
+    & button {
+        padding-left: 2%;
+        padding-right: 2%;
+        background-color: rgb(143, 93, 44);
+        color: white;
+        border: $border;
+        border-radius: 1rem;
+        cursor: pointer;
+    }
+}
+.filters__reset-btn {
+    
+}
+.filters__copyLink-btn {
+
+}
+._filters{
+    margin-bottom: 5%;
+    border-radius: .5rem;
+    overflow: hidden;
+    border: $border;
+}
+.filters__category {
+   
+}
+.filters__title {
+    text-align: center;
+    background-color: $bg-title;
+    border-bottom: $border;
+}
+.filters__list {
+}
+.filters__brand {
+    
+}
+.filters__price {
+    
+}
+.filters__stock {
+
+}
+.products {
+    width: 74%;
+    border: $border;
+    padding: .6rem;
+    border-radius: 1rem;
+}
+.sort-products {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.sort-bar{
+    & select{
+        cursor: pointer;
+        background-color: $bg-title;
+        border: $border;
+        color: white;
+        border-radius: 2rem;
+        padding: .2rem .8rem;
+    }
+}
+
+.stat {
+}
+.search-bar {
+}
+
+.search-bar > input{
+    text-align: center;
+    background-color: $bg-title;
+    outline: none;
+    color: white;
+    border-radius: 2rem;
+    border: $border;
+}
+
+.view-mode {
+    display: flex;
+    width: 6rem;
+    justify-content: space-around;
+}
+
+.view-mode > div{
+    cursor: pointer;
+    background-color: peru;
+    padding: .1rem .6rem;
+    border-radius: .5rem;
+}
+
+.view-mode__small {
+}
+.view-mode__big {
+}
+.products__items {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+._resize-products{
+    grid-template-columns: repeat(5, 1fr);
 }
