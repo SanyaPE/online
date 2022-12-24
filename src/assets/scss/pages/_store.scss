@@ -132,4 +132,10 @@ $bg-title: black;
 }
 ._resize-products{
     grid-template-columns: repeat(5, 1fr);
+    & > .card{
+        height: 10vw;
+    }
+    & .card__info {
+        display: none;
+    }
 }

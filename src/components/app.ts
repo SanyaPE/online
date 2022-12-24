@@ -1,7 +1,9 @@
-import appendCards from './cards';
+import Card from './cards';
 import data from './data-base';
+import Filters from './filters';
 import { IApp, IUrlRoutersItem, IUrlRouters } from './models';
 import urlRoutes from './urlRoutes';
+import View from './view';
 
 class App implements IApp {
     urlRoutes: IUrlRouters = urlRoutes;
@@ -25,11 +27,22 @@ class App implements IApp {
         this.elements.main = document.getElementById('main');
         this.elements.main.innerHTML = html;
         if (location === '/') {
-            this.cards()
+            this._cards();
+            this._view();
+            this._filters()
         }
     }
-    cards() {
-        appendCards(data)
+    _cards() {
+        const card = new Card(data)
+        card.appendCards();
+    }
+    _view() {
+        const view = new View()
+        view.addListeners();
+    }
+    _filters() {
+        const filters = new Filters(data)
+        filters._addFilters()
     }
 }
 export default App;
