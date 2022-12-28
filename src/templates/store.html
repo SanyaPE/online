@@ -18,26 +18,39 @@
                 <h3 class="filters__title">Price</h3>
                 <div class="range_container">
                     <div class="sliders_control">
-                        <input id="fromSlider" type="range" value="10" min="0" max="100" />
-                        <input id="toSlider" type="range" value="40" min="0" max="100" />
+                        <input id="fromSlider" type="range" value="0" min="0" max="1749" />
+                        <input id="toSlider" type="range" value="1749" min="0" max="1749" />
                     </div>
                     <div class="form_control">
                         <div class="form_control_container">
                             <div class="form_control_container__time">Min</div>
-                            <input class="form_control_container__time__input" type="number" id="fromInput" value="10"
-                                min="0" max="100" />
+                            <div id="fromInput">0</div>
                         </div>
                         <div class="form_control_container">
                             <div class="form_control_container__time">Max</div>
-                            <input class="form_control_container__time__input" type="number" id="toInput" value="40"
-                                min="0" max="100" />
+                            <div id="toInput">1749</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="filters__stock _filters" filtername='stock'>
                 <h3 class="filters__title">Stock</h3>
-                <div class="filters__list"></div>
+                <div class="range_container">
+                    <div class="sliders_control">
+                        <input id="fromSliderStock" type="range" value="0" min="0" max="150" />
+                        <input id="toSliderStock" type="range" value="150" min="0" max="150" />
+                    </div>
+                    <div class="form_control">
+                        <div class="form_control_container">
+                            <div class="form_control_container__time">Min</div>
+                            <div id="fromInputStock">0</div>
+                        </div>
+                        <div class="form_control_container">
+                            <div class="form_control_container__time">Max</div>
+                            <div id="toInputStock">150</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="products">

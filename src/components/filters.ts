@@ -1,5 +1,11 @@
-import { Data } from './data-base'
+import data, { Data } from './data-base'
 class Filters {
+    tempObj = {
+        category: [],
+        brand: [],
+        price: [],
+        stock: [],
+    }
     data: Data[];
     CATEGORY_ELEM: HTMLDivElement;
     BRAND_ELEM: HTMLDivElement;
@@ -9,6 +15,10 @@ class Filters {
     toSlider: HTMLInputElement;
     fromInput: HTMLInputElement;
     toInput: HTMLInputElement;
+    fromSliderStock: HTMLInputElement;
+    toSliderStock: HTMLInputElement;
+    fromInputStock: HTMLInputElement;
+    toInputStock: HTMLInputElement;
     constructor(data: Data[]) {
         this.data = data;
         this.CATEGORY_ELEM = document.querySelector("[filtername='category'] .filters__list") as HTMLDivElement
@@ -19,6 +29,10 @@ class Filters {
         this.toSlider = document.querySelector('#toSlider') as HTMLInputElement;
         this.fromInput = document.querySelector('#fromInput') as HTMLInputElement;
         this.toInput = document.querySelector('#toInput') as HTMLInputElement;
+        this.fromSliderStock = document.querySelector('#fromSliderStock') as HTMLInputElement;
+        this.toSliderStock = document.querySelector('#toSliderStock') as HTMLInputElement;
+        this.fromInputStock = document.querySelector('#fromInputStock') as HTMLInputElement;
+        this.toInputStock = document.querySelector('#toInputStock') as HTMLInputElement;
     }
     _addFilters() {
         let categoryArr = Array.from(new Set(this.data.map((item) => item.category)));
@@ -44,34 +58,13 @@ class Filters {
         appendCheckboxes(this.data, categoryArr, this.CATEGORY_ELEM)
         appendCheckboxes(this.data, brandArr, this.BRAND_ELEM)
         // ----dual-range------
-        function controlFromInput(fromSlider: HTMLInputElement, fromInput: HTMLInputElement, toInput: HTMLInputElement, controlSlider: HTMLInputElement) {
-            const [from, to] = getParsed(fromInput, toInput);
-            if (from > to) {
-                fromSlider.value = String(to);
-                fromInput.value = String(to);
-            } else {
-                fromSlider.value = String(from);
-            }
-        }
-
-        function controlToInput(toSlider: HTMLInputElement, fromInput: HTMLInputElement, toInput: HTMLInputElement, controlSlider: HTMLInputElement) {
-            const [from, to] = getParsed(fromInput, toInput);
-            setToggleAccessible(toInput);
-            if (from <= to) {
-                toSlider.value = String(to);
-                toInput.value = String(to);
-            } else {
-                toInput.value = String(from);
-            }
-        }
-
         function controlFromSlider(fromSlider: HTMLInputElement, toSlider: HTMLInputElement, fromInput: HTMLInputElement) {
             const [from, to] = getParsed(fromSlider, toSlider);
             if (from > to) {
                 fromSlider.value = String(to);
-                fromInput.value = String(to);
+                fromInput.innerText = String(to);
             } else {
-                fromInput.value = String(from);
+                fromInput.innerText = String(from);
             }
         }
 
@@ -80,9 +73,9 @@ class Filters {
             setToggleAccessible(toSlider);
             if (from <= to) {
                 toSlider.value = String(to);
-                toInput.value = String(to);
+                toInput.innerText = String(to);
             } else {
-                toInput.value = String(from);
+                toInput.innerText = String(from);
                 toSlider.value = String(from);
             }
         }
@@ -94,20 +87,44 @@ class Filters {
         }
 
         function setToggleAccessible(currentTarget: HTMLInputElement) {
-            const toSlider = document.querySelector('#toSlider') as HTMLInputElement;
             if (Number(currentTarget.value) <= 0) {
-                toSlider.style.zIndex = '2';
+                currentTarget.style.zIndex = '2';
             } else {
-                toSlider.style.zIndex = '0';
+                currentTarget.style.zIndex = '0';
             }
         }
 
         setToggleAccessible(this.toSlider);
+        setToggleAccessible(this.toSliderStock);
 
         this.fromSlider.oninput = () => controlFromSlider(this.fromSlider, this.toSlider, this.fromInput);
         this.toSlider.oninput = () => controlToSlider(this.fromSlider, this.toSlider, this.toInput);
-        this.fromInput.oninput = () => controlFromInput(this.fromSlider, this.fromInput, this.toInput, this.toSlider);
-        this.toInput.oninput = () => controlToInput(this.toSlider, this.fromInput, this.toInput, this.toSlider);
+        this.fromSlider.oninput = () => controlFromSlider(this.fromSlider, this.toSlider, this.fromInput);
+        this.toSlider.oninput = () => controlToSlider(this.fromSlider, this.toSlider, this.toInput);
+
+        this.fromSliderStock.oninput = () => controlFromSlider(this.fromSliderStock, this.toSliderStock, this.fromInputStock);
+        this.toSliderStock.oninput = () => controlToSlider(this.fromSliderStock, this.toSliderStock, this.toInputStock);
+        this.fromSliderStock.oninput = () => controlFromSlider(this.fromSliderStock, this.toSliderStock, this.fromInputStock);
+        this.toSliderStock.oninput = () => controlToSlider(this.fromSliderStock, this.toSliderStock, this.toInputStock);
+
+        // ----listeners-for-range-slider------
+        this.fromSlider.addEventListener('input', () => saveInputToTempObj(this.fromSlider, this.toSlider, this.tempObj));
+        this.toSlider.addEventListener('input', () => saveInputToTempObj(this.fromSlider, this.toSlider, this.tempObj));
+
+        this.fromSliderStock.addEventListener('input', () => saveInputToTempObjStock(this.fromSliderStock, this.toSliderStock, this.tempObj));
+        this.toSliderStock.addEventListener('input', () => saveInputToTempObjStock(this.fromSliderStock, this.toSliderStock, this.tempObj));
+
+
+        function saveInputToTempObj(fromInput, toInput, tempObj) {
+            tempObj.price = [Number(fromInput.value), Number(toInput.value)];
+            console.log(tempObj);
+        }
+        function saveInputToTempObjStock(fromInput, toInput, tempObj) {
+            tempObj.stock = [Number(fromInput.value), Number(toInput.value)];
+            console.log(tempObj);
+        }
+        // ----testing-------
+        this.toInputStock.innerText = String(this.data.sort((a, b) => b.stock - a.stock)[0].stock)
     }
 }
 
