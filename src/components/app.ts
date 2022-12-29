@@ -42,7 +42,7 @@ class App implements IApp {
     }
     _filters() {
         const filters = new Filters(data)
-        filters._addFilters()
+        filters.addFilters()
     }
 }
 export default App;

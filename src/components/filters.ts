@@ -1,11 +1,21 @@
-import data, { Data } from './data-base'
+import Card from './cards';
+import data from './data-base';
+import baseData, { Data } from './data-base'
+interface ITempObj {
+    category: string[];
+    brand: string[];
+    price: number[];
+    stock: number[];
+}
 class Filters {
-    tempObj = {
+    tempObj: ITempObj = {
         category: [],
         brand: [],
         price: [],
         stock: [],
     }
+    tempDataFromFilters: Data[] = []
+
     data: Data[];
     CATEGORY_ELEM: HTMLDivElement;
     BRAND_ELEM: HTMLDivElement;
@@ -19,6 +29,7 @@ class Filters {
     toSliderStock: HTMLInputElement;
     fromInputStock: HTMLInputElement;
     toInputStock: HTMLInputElement;
+    productsContainer: HTMLDivElement;
     constructor(data: Data[]) {
         this.data = data;
         this.CATEGORY_ELEM = document.querySelector("[filtername='category'] .filters__list") as HTMLDivElement
@@ -33,8 +44,10 @@ class Filters {
         this.toSliderStock = document.querySelector('#toSliderStock') as HTMLInputElement;
         this.fromInputStock = document.querySelector('#fromInputStock') as HTMLInputElement;
         this.toInputStock = document.querySelector('#toInputStock') as HTMLInputElement;
+
+        this.productsContainer = document.querySelector('.products__items') as HTMLDivElement
     }
-    _addFilters() {
+    _createFilters() {
         let categoryArr = Array.from(new Set(this.data.map((item) => item.category)));
         let brandArr = Array.from(new Set(this.data.map((item) => item.brand)));
         function appendCheckboxes(data: Data[], arr: string[], elemForAppend: HTMLDivElement) {
@@ -57,6 +70,7 @@ class Filters {
         }
         appendCheckboxes(this.data, categoryArr, this.CATEGORY_ELEM)
         appendCheckboxes(this.data, brandArr, this.BRAND_ELEM)
+
         // ----dual-range------
         function controlFromSlider(fromSlider: HTMLInputElement, toSlider: HTMLInputElement, fromInput: HTMLInputElement) {
             const [from, to] = getParsed(fromSlider, toSlider);
@@ -115,16 +129,58 @@ class Filters {
         this.toSliderStock.addEventListener('input', () => saveInputToTempObjStock(this.fromSliderStock, this.toSliderStock, this.tempObj));
 
 
-        function saveInputToTempObj(fromInput, toInput, tempObj) {
+        function saveInputToTempObj(fromInput: HTMLInputElement, toInput: HTMLInputElement, tempObj: ITempObj) {
             tempObj.price = [Number(fromInput.value), Number(toInput.value)];
-            console.log(tempObj);
         }
-        function saveInputToTempObjStock(fromInput, toInput, tempObj) {
+        function saveInputToTempObjStock(fromInput: HTMLInputElement, toInput: HTMLInputElement, tempObj: ITempObj) {
             tempObj.stock = [Number(fromInput.value), Number(toInput.value)];
-            console.log(tempObj);
         }
-        // ----testing-------
-        this.toInputStock.innerText = String(this.data.sort((a, b) => b.stock - a.stock)[0].stock)
+
+    }
+    _addListenersForCategory() {
+        let brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]')
+        let categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]')
+        let productsContainer = this.productsContainer
+        let disableBrandFromCategory = this._disableBrandFromCategory
+        const tempObj = this.tempObj
+        let tempDataFromFilters = this.tempDataFromFilters
+        for (let i = 0; i < categoryInputs.length; i++) {
+            categoryInputs[i].addEventListener('change', function () {
+                if (this.checked) {
+                    tempObj.category.push(this.id)
+                    tempDataFromFilters = tempDataFromFilters.concat(baseData.filter((item) => item.category === this.id))
+                } else {
+                    tempObj.category.splice(tempObj.category.indexOf(this.id), 1)
+                    tempDataFromFilters = tempDataFromFilters.filter((item) => item.category !== this.id);
+                }
+                disableBrandFromCategory(tempDataFromFilters, brandInputs)
+                productsContainer.innerHTML = ''
+                tempDataFromFilters.length === 0 ? new Card(baseData).appendCards() :
+                    new Card(tempDataFromFilters).appendCards()
+            })
+
+        }
+
+    }
+    _disableBrandFromCategory(tempData: Data[], brandInputs: NodeListOf<HTMLInputElement>) {
+        let brandArr = Array.from(new Set(tempData.map((item) => item.brand)));
+        if (brandArr.length === 0) {
+            Array.from(brandInputs).forEach((item) => item.disabled = false)
+            return
+        }
+        for (let i = 0; i < brandInputs.length; i++) {
+            brandInputs[i].disabled = !brandArr.includes(brandInputs[i].id)
+        }
+
+    }
+    _addListenersForBrands() {
+        let brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]')
+        let categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]')
+
+    }
+    addFilters() {
+        this._createFilters()
+        this._addListenersForCategory()
     }
 }
 
