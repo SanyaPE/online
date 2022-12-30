@@ -138,29 +138,23 @@ class Filters {
 
     }
     _addListenersForCategory() {
-        let brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]')
         let categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]')
-        let productsContainer = this.productsContainer
-        let disableBrandFromCategory = this._disableBrandFromCategory
-        const tempObj = this.tempObj
-        let tempDataFromFilters = this.tempDataFromFilters
         for (let i = 0; i < categoryInputs.length; i++) {
-            categoryInputs[i].addEventListener('change', function () {
-                if (this.checked) {
-                    tempObj.category.push(this.id)
-                    tempDataFromFilters = tempDataFromFilters.concat(baseData.filter((item) => item.category === this.id))
-                } else {
-                    tempObj.category.splice(tempObj.category.indexOf(this.id), 1)
-                    tempDataFromFilters = tempDataFromFilters.filter((item) => item.category !== this.id);
-                }
-                disableBrandFromCategory(tempDataFromFilters, brandInputs)
-                productsContainer.innerHTML = ''
-                tempDataFromFilters.length === 0 ? new Card(baseData).appendCards() :
-                    new Card(tempDataFromFilters).appendCards()
-            })
+            categoryInputs[i].addEventListener('change', (e: Event) => this._categoryHandler((e.currentTarget as HTMLInputElement)))
 
         }
+    }
+    _categoryHandler(elem: HTMLInputElement) {
+        let brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]')
+        if (elem.checked) {
+            this.tempObj.category.push(elem.id)
 
+        } else {
+            this.tempObj.category.splice(this.tempObj.category.indexOf(elem.id), 1)
+
+        }
+        // this._disableBrandFromCategory(this.tempDataFromFilters, brandInputs)
+        this._appendCardsFromTemp()
     }
     _disableBrandFromCategory(tempData: Data[], brandInputs: NodeListOf<HTMLInputElement>) {
         let brandArr = Array.from(new Set(tempData.map((item) => item.brand)));
@@ -175,12 +169,49 @@ class Filters {
     }
     _addListenersForBrands() {
         let brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]')
-        let categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]')
+        for (let i = 0; i < brandInputs.length; i++) {
+            brandInputs[i].addEventListener('change', (e: Event) => this._brandsHandler((e.currentTarget as HTMLInputElement)))
+        }
 
+    }
+    _brandsHandler(elem: HTMLInputElement) {
+        let categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]')
+        if (elem.checked) {
+            this.tempObj.brand.push(elem.id)
+        } else {
+            this.tempObj.brand.splice(this.tempObj.brand.indexOf(elem.id), 1)
+        }
+
+        this._appendCardsFromTemp()
+    }
+    _appendCardsFromTemp() {
+        this.productsContainer.innerHTML = ''
+        this.tempDataFromFilters = baseData
+
+        if (Object.values(this.tempObj).every((arr) => arr.length === 0)) {
+            new Card(baseData).appendCards()
+            return
+        }
+        if (this.tempObj.category.length !== 0) {
+            this.tempDataFromFilters = this.tempDataFromFilters.filter((item) => this.tempObj.category.some((itemId) => itemId === item.category))
+        }
+        if (this.tempObj.brand.length !== 0) {
+            this.tempDataFromFilters = this.tempDataFromFilters.filter((item) => this.tempObj.brand.some((itemId) => itemId === item.brand))
+        }
+        if (this.tempDataFromFilters.length === 0) {
+            if (Object.values(this.tempObj).some((arr) => arr.length !== 0)) {
+                this.productsContainer.innerText = 'No Items found'
+            } else {
+                new Card(baseData).appendCards()
+            }
+            return
+        }
+        new Card(this.tempDataFromFilters).appendCards()
     }
     addFilters() {
         this._createFilters()
         this._addListenersForCategory()
+        this._addListenersForBrands()
     }
 }
 
