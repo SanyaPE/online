@@ -121,20 +121,20 @@ class Filters {
         this.fromSliderStock.oninput = () => controlFromSlider(this.fromSliderStock, this.toSliderStock, this.fromInputStock);
         this.toSliderStock.oninput = () => controlToSlider(this.fromSliderStock, this.toSliderStock, this.toInputStock);
 
-        // ----listeners-for-range-slider------
-        this.fromSlider.addEventListener('input', () => saveInputToTempObj(this.fromSlider, this.toSlider, this.tempObj));
-        this.toSlider.addEventListener('input', () => saveInputToTempObj(this.fromSlider, this.toSlider, this.tempObj));
+        // // ----listeners-for-range-slider------
+        // this.fromSlider.addEventListener('input', () => saveInputToTempObj(this.fromSlider, this.toSlider, this.tempObj));
+        // this.toSlider.addEventListener('input', () => saveInputToTempObj(this.fromSlider, this.toSlider, this.tempObj));
 
-        this.fromSliderStock.addEventListener('input', () => saveInputToTempObjStock(this.fromSliderStock, this.toSliderStock, this.tempObj));
-        this.toSliderStock.addEventListener('input', () => saveInputToTempObjStock(this.fromSliderStock, this.toSliderStock, this.tempObj));
+        // this.fromSliderStock.addEventListener('input', () => saveInputToTempObjStock(this.fromSliderStock, this.toSliderStock, this.tempObj));
+        // this.toSliderStock.addEventListener('input', () => saveInputToTempObjStock(this.fromSliderStock, this.toSliderStock, this.tempObj));
 
 
-        function saveInputToTempObj(fromInput: HTMLInputElement, toInput: HTMLInputElement, tempObj: ITempObj) {
-            tempObj.price = [Number(fromInput.value), Number(toInput.value)];
-        }
-        function saveInputToTempObjStock(fromInput: HTMLInputElement, toInput: HTMLInputElement, tempObj: ITempObj) {
-            tempObj.stock = [Number(fromInput.value), Number(toInput.value)];
-        }
+        // function saveInputToTempObj(fromInput: HTMLInputElement, toInput: HTMLInputElement, tempObj: ITempObj) {
+        //     tempObj.price = [Number(fromInput.value), Number(toInput.value)];
+        // }
+        // function saveInputToTempObjStock(fromInput: HTMLInputElement, toInput: HTMLInputElement, tempObj: ITempObj) {
+        //     tempObj.stock = [Number(fromInput.value), Number(toInput.value)];
+        // }
 
     }
     _addListenersForCategory() {
@@ -145,28 +145,56 @@ class Filters {
         }
     }
     _categoryHandler(elem: HTMLInputElement) {
-        let brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]')
         if (elem.checked) {
             this.tempObj.category.push(elem.id)
-
         } else {
             this.tempObj.category.splice(this.tempObj.category.indexOf(elem.id), 1)
-
         }
-        // this._disableBrandFromCategory(this.tempDataFromFilters, brandInputs)
         this._appendCardsFromTemp()
+        this._disableInputBoxes()
     }
-    _disableBrandFromCategory(tempData: Data[], brandInputs: NodeListOf<HTMLInputElement>) {
-        let brandArr = Array.from(new Set(tempData.map((item) => item.brand)));
-        if (brandArr.length === 0) {
-            Array.from(brandInputs).forEach((item) => item.disabled = false)
-            return
+    _disableInputBoxes() {
+        let brandArr = Array.from(new Set(this.tempDataFromFilters.map((item) => item.brand)));
+        let categoryArr = Array.from(new Set(this.tempDataFromFilters.map((item) => item.category)));
+        let categoryInputs = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>
+        let brandInputs = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>
+
+        for (let i = 0; i < categoryInputs.length; i++) {
+            const element = categoryInputs[i];
+            if (!categoryArr.includes(element.id)) {
+                (element.labels as NodeListOf<HTMLLabelElement>)[0].classList.add('disable-filters')
+            } else {
+                (element.labels as NodeListOf<HTMLLabelElement>)[0].classList.remove('disable-filters')
+            }
         }
         for (let i = 0; i < brandInputs.length; i++) {
-            brandInputs[i].disabled = !brandArr.includes(brandInputs[i].id)
+            const element = brandInputs[i];
+            if (!brandArr.includes(element.id)) {
+                (element.labels as NodeListOf<HTMLLabelElement>)[0].classList.add('disable-filters')
+            } else {
+                (element.labels as NodeListOf<HTMLLabelElement>)[0].classList.remove('disable-filters')
+            }
         }
-
+        this.fromSlider.value = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b)[0])
+        this.toSlider.value = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b).at(-1))
+        this.fromInput.innerText = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b)[0])
+        this.toInput.innerText = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b).at(-1))
+        this.fromSliderStock.value = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b)[0])
+        this.toSliderStock.value = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b).at(-1))
+        this.fromInputStock.innerText = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b)[0])
+        this.toInputStock.innerText = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b).at(-1))
     }
+    // _resetFilters() {
+    //     let categryAll = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>
+    //     let brandsAll = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>
+    //     for (let i = 0; i < categryAll.length; i++) {
+    //         categryAll[i].disabled = false
+    //     }
+    //     for (let i = 0; i < brandsAll.length; i++) {
+    //         brandsAll[i].disabled = false
+    //     }
+    // }
+
     _addListenersForBrands() {
         let brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]')
         for (let i = 0; i < brandInputs.length; i++) {
@@ -175,14 +203,31 @@ class Filters {
 
     }
     _brandsHandler(elem: HTMLInputElement) {
-        let categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]')
         if (elem.checked) {
             this.tempObj.brand.push(elem.id)
         } else {
             this.tempObj.brand.splice(this.tempObj.brand.indexOf(elem.id), 1)
         }
-
         this._appendCardsFromTemp()
+        this._disableInputBoxes()
+    }
+    _addListenersForPrice() {
+        this.fromSlider.addEventListener('input', (e: Event) => this._addListenersForPriceHandler((e.currentTarget as HTMLInputElement)));
+        this.toSlider.addEventListener('input', (e: Event) => this._addListenersForPriceHandler((e.currentTarget as HTMLInputElement)));
+    }
+    _addListenersForPriceHandler(elem: HTMLInputElement) {
+        this.tempObj.price = [Number(this.fromSlider.value), Number(this.toSlider.value)];
+        this._appendCardsFromTemp()
+        this._disableInputBoxes()
+    }
+    _addListenersForStock() {
+        this.fromSliderStock.addEventListener('input', (e: Event) => this._addListenersForStockHandler((e.currentTarget as HTMLInputElement)));
+        this.toSliderStock.addEventListener('input', (e: Event) => this._addListenersForStockHandler((e.currentTarget as HTMLInputElement)));
+    }
+    _addListenersForStockHandler(elem: HTMLInputElement) {
+        this.tempObj.stock = [Number(this.fromSliderStock.value), Number(this.toSliderStock.value)];
+        this._appendCardsFromTemp()
+        this._disableInputBoxes()
     }
     _appendCardsFromTemp() {
         this.productsContainer.innerHTML = ''
@@ -198,6 +243,12 @@ class Filters {
         if (this.tempObj.brand.length !== 0) {
             this.tempDataFromFilters = this.tempDataFromFilters.filter((item) => this.tempObj.brand.some((itemId) => itemId === item.brand))
         }
+        if (this.tempObj.price.length !== 0) {
+            this.tempDataFromFilters = this.tempDataFromFilters.filter((item) => item.price >= this.tempObj.price[0] && item.price <= this.tempObj.price[1])
+        }
+        if (this.tempObj.stock.length !== 0) {
+            this.tempDataFromFilters = this.tempDataFromFilters.filter((item) => item.stock >= this.tempObj.stock[0] && item.stock <= this.tempObj.stock[1])
+        }
         if (this.tempDataFromFilters.length === 0) {
             if (Object.values(this.tempObj).some((arr) => arr.length !== 0)) {
                 this.productsContainer.innerText = 'No Items found'
@@ -212,6 +263,8 @@ class Filters {
         this._createFilters()
         this._addListenersForCategory()
         this._addListenersForBrands()
+        this._addListenersForPrice()
+        this._addListenersForStock()
     }
 }
 
