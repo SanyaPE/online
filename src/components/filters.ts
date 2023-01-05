@@ -1,5 +1,4 @@
 import Card from './cards';
-import data from './data-base';
 import baseData, { Data } from './data-base'
 interface ITempObj {
     category: string[];
@@ -30,6 +29,8 @@ class Filters {
     fromInputStock: HTMLInputElement;
     toInputStock: HTMLInputElement;
     productsContainer: HTMLDivElement;
+    resetBtn: HTMLButtonElement;
+    foundElem: HTMLDivElement;
     constructor(data: Data[]) {
         this.data = data;
         this.CATEGORY_ELEM = document.querySelector("[filtername='category'] .filters__list") as HTMLDivElement
@@ -46,6 +47,8 @@ class Filters {
         this.toInputStock = document.querySelector('#toInputStock') as HTMLInputElement;
 
         this.productsContainer = document.querySelector('.products__items') as HTMLDivElement
+        this.resetBtn = document.querySelector('.filters__reset-btn') as HTMLButtonElement
+        this.foundElem = document.querySelector('.stat') as HTMLDivElement
     }
     _createFilters() {
         let categoryArr = Array.from(new Set(this.data.map((item) => item.category)));
@@ -121,21 +124,7 @@ class Filters {
         this.fromSliderStock.oninput = () => controlFromSlider(this.fromSliderStock, this.toSliderStock, this.fromInputStock);
         this.toSliderStock.oninput = () => controlToSlider(this.fromSliderStock, this.toSliderStock, this.toInputStock);
 
-        // // ----listeners-for-range-slider------
-        // this.fromSlider.addEventListener('input', () => saveInputToTempObj(this.fromSlider, this.toSlider, this.tempObj));
-        // this.toSlider.addEventListener('input', () => saveInputToTempObj(this.fromSlider, this.toSlider, this.tempObj));
-
-        // this.fromSliderStock.addEventListener('input', () => saveInputToTempObjStock(this.fromSliderStock, this.toSliderStock, this.tempObj));
-        // this.toSliderStock.addEventListener('input', () => saveInputToTempObjStock(this.fromSliderStock, this.toSliderStock, this.tempObj));
-
-
-        // function saveInputToTempObj(fromInput: HTMLInputElement, toInput: HTMLInputElement, tempObj: ITempObj) {
-        //     tempObj.price = [Number(fromInput.value), Number(toInput.value)];
-        // }
-        // function saveInputToTempObjStock(fromInput: HTMLInputElement, toInput: HTMLInputElement, tempObj: ITempObj) {
-        //     tempObj.stock = [Number(fromInput.value), Number(toInput.value)];
-        // }
-
+        this.foundElem.innerText = `Found: ${baseData.length}`
     }
     _addListenersForCategory() {
         let categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]')
@@ -166,6 +155,10 @@ class Filters {
             } else {
                 (element.labels as NodeListOf<HTMLLabelElement>)[0].classList.remove('disable-filters')
             }
+            let categoryQnt = element.nextElementSibling?.nextElementSibling as HTMLSpanElement;
+            let allCategoryQnt = baseData.filter((item) => item.category === element.id).length
+            let currCategoryQnt = this.tempDataFromFilters.filter((item) => item.category === element.id).length
+            categoryQnt.innerText = ` (${currCategoryQnt}/${allCategoryQnt})`
         }
         for (let i = 0; i < brandInputs.length; i++) {
             const element = brandInputs[i];
@@ -174,27 +167,51 @@ class Filters {
             } else {
                 (element.labels as NodeListOf<HTMLLabelElement>)[0].classList.remove('disable-filters')
             }
+            let brandQnt = element.nextElementSibling?.nextElementSibling as HTMLSpanElement;
+            let allBrandQnt = baseData.filter((item) => item.brand === element.id).length
+            let currBrandQnt = this.tempDataFromFilters.filter((item) => item.brand === element.id).length
+            brandQnt.innerText = ` (${currBrandQnt}/${allBrandQnt})`
         }
-        this.fromSlider.value = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b)[0])
-        this.toSlider.value = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b).at(-1))
-        this.fromInput.innerText = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b)[0])
-        this.toInput.innerText = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b).at(-1))
-        this.fromSliderStock.value = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b)[0])
-        this.toSliderStock.value = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b).at(-1))
-        this.fromInputStock.innerText = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b)[0])
-        this.toInputStock.innerText = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b).at(-1))
-    }
-    // _resetFilters() {
-    //     let categryAll = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>
-    //     let brandsAll = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>
-    //     for (let i = 0; i < categryAll.length; i++) {
-    //         categryAll[i].disabled = false
-    //     }
-    //     for (let i = 0; i < brandsAll.length; i++) {
-    //         brandsAll[i].disabled = false
-    //     }
-    // }
 
+
+
+        this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`
+
+        // this.fromSlider.value = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b)[0])
+        // this.toSlider.value = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b).at(-1))
+        // this.fromInput.innerText = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b)[0])
+        // this.toInput.innerText = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b).at(-1))
+        // this.fromSliderStock.value = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b)[0])
+        // this.toSliderStock.value = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b).at(-1))
+        // this.fromInputStock.innerText = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b)[0])
+        // this.toInputStock.innerText = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b).at(-1))
+    }
+    _resetFilters() {
+        this.resetBtn.addEventListener('click', () => this._resetFiltersHandler())
+    }
+    _resetFiltersHandler() {
+        let brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>
+        let categoryInputs = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>
+        Array.from(categoryInputs).forEach((elem) => elem.checked = false)
+        Array.from(brandInputs).forEach((elem) => elem.checked = false)
+        this.fromSlider.value = '0'
+        this.toSlider.value = String(baseData.map((item) => item.price).sort((a, b) => b - a)[0])
+        this.fromSliderStock.value = '0'
+        this.toSliderStock.value = String(baseData.map((item) => item.stock).sort((a, b) => b - a)[0])
+        this.fromInput.innerText = this.fromSlider.value
+        this.toInput.innerText = this.toSlider.value
+        this.fromInputStock.innerText = this.fromSliderStock.value
+        this.toInputStock.innerText = this.toSliderStock.value
+        this._resetFiltersToBase()
+    }
+    _resetFiltersToBase() {
+        Object.keys(this.tempObj).forEach(key => {
+            this.tempObj[key as keyof typeof this.tempObj] = [];
+        });
+        this._appendCardsFromTemp()
+        this._disableInputBoxes()
+        this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`
+    }
     _addListenersForBrands() {
         let brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]')
         for (let i = 0; i < brandInputs.length; i++) {
@@ -257,7 +274,9 @@ class Filters {
             }
             return
         }
+        this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`
         new Card(this.tempDataFromFilters).appendCards()
+
     }
     addFilters() {
         this._createFilters()
@@ -265,6 +284,7 @@ class Filters {
         this._addListenersForBrands()
         this._addListenersForPrice()
         this._addListenersForStock()
+        this._resetFilters()
     }
 }
 

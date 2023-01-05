@@ -249,4 +249,8 @@ input[type="range"] {
 
 .disable-filters {
     color: gray;
+
+    &~span {
+        color: gray;
+    }
 }
