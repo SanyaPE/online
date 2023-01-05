@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <header class="header">
         <div class="container header__container">
             <h1 class="header__title">online-store</h1>
             <nav class="nav">
                 <ul class="nav__list">
-                    <li class="nav__item"><a href="/" class="nav__link">Store</a></li>
+                    <li class="nav__item"><a href="" class="nav__link">Store</a></li>
                     <li class="nav__item"><a href="#cart" class="nav__link">Cart</a></li>
-                    <li class="nav__item"><a href="#404" class="nav__link">404</a></li>
                 </ul>
 
             </nav>
@@ -28,4 +29,102 @@
     </div>
     <script src="./index.js"></script>
 </body>
+
 </html>
+<template id="cart">
+    <section class="cart">
+        <div class="container">
+            <h2>CART-PAGE</h2>
+        </div>
+    </section>
+</template>
+<template id="store">
+    <section class="store">
+        <div class="container store__container">
+            <div class="filters">
+                <div class="filters__btns">
+                    <button class="filters__reset-btn">Reset filters</button>
+                    <button class="filters__copyLink-btn">Copy link!</button>
+                </div>
+                <div class="filters__category _filters" filtername='category'>
+                    <h3 class="filters__title">Category</h3>
+                    <div class="filters__list"></div>
+                </div>
+                <div class="filters__brand _filters" filtername='brand'>
+                    <h3 class="filters__title">Brand</h3>
+                    <div class="filters__list"></div>
+                </div>
+                <div class="filters__price _filters" filtername='price'>
+                    <h3 class="filters__title">Price</h3>
+                    <div class="range_container">
+                        <div class="sliders_control">
+                            <input id="fromSlider" type="range" value="0" min="0" max="1749" />
+                            <input id="toSlider" type="range" value="1749" min="0" max="1749" />
+                        </div>
+                        <div class="form_control">
+                            <div class="form_control_container">
+                                <div class="form_control_container__time">Min</div>
+                                <div id="fromInput">0</div>
+                            </div>
+                            <div class="form_control_container">
+                                <div class="form_control_container__time">Max</div>
+                                <div id="toInput">1749</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filters__stock _filters" filtername='stock'>
+                    <h3 class="filters__title">Stock</h3>
+                    <div class="range_container">
+                        <div class="sliders_control">
+                            <input id="fromSliderStock" type="range" value="0" min="0" max="150" />
+                            <input id="toSliderStock" type="range" value="150" min="0" max="150" />
+                        </div>
+                        <div class="form_control">
+                            <div class="form_control_container">
+                                <div class="form_control_container__time">Min</div>
+                                <div id="fromInputStock">0</div>
+                            </div>
+                            <div class="form_control_container">
+                                <div class="form_control_container__time">Max</div>
+                                <div id="toInputStock">150</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="products">
+                <div class="sort-products">
+                    <div class="sort-bar">
+                        <select id="sortBar">
+                            <option value="sort-title" disabled="" selected="">Sort
+                                options:</option>
+                            <option value="price-ASC">Sort by price ASC</option>
+                            <option value="price-DESC">Sort by price DESC</option>
+                            <option value="rating-ASC">Sort by rating ASC</option>
+                            <option value="rating-DESC">Sort by rating DESC</option>
+                            <option value="discount-ASC">Sort by discount ASC</option>
+                            <option value="discount-DESC">Sort by discount DESC</option>
+                        </select>
+                    </div>
+                    <div class="stat">Found: </div>
+                    <div class="search-bar">
+                        <input type="search" placeholder="Search product">
+                    </div>
+                    <div class="view-mode">
+                        <div class="view-mode__small">S</div>
+                        <div class="view-mode__big">L</div>
+                    </div>
+                </div>
+                <div class="products__items"></div>
+            </div>
+        </div>
+    </section>
+</template>
+<template id="not-found">
+    <section class="404">
+        <div class="container">
+            <h2>404</h1>
+        </div>
+    </section>
+</template>
