@@ -29,20 +29,20 @@ class App implements IApp {
         if (location === '/') {
             this._cards();
             this._view();
-            this._filters()
+            this._filters();
         }
     }
     _cards() {
-        const card = new Card(data)
+        const card = new Card(data);
         card.appendCards();
     }
     _view() {
-        const view = new View()
+        const view = new View();
         view.addListeners();
     }
     _filters() {
-        const filters = new Filters(data)
-        filters.addFilters()
+        const filters = new Filters(data);
+        filters.addFilters();
     }
 }
 export default App;

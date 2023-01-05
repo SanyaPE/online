@@ -3,7 +3,7 @@ import { Data } from './data-base.js';
 class Card {
     data: Data[];
     constructor(data: Data[]) {
-        this.data = data
+        this.data = data;
     }
     _createCard(obj: Data) {
         const cardElem = document.createElement('div');
