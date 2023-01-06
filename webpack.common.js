@@ -12,7 +12,7 @@ module.exports = {
     entry: path.resolve(__dirname, './src/index.ts'),
     output: {
         filename: 'index.js',
-        path: PATHS.dist,
+        path: path.resolve(__dirname, './dist'),
         clean: true,
         publicPath: '/'
     },
@@ -44,12 +44,12 @@ module.exports = {
             template: `${PATHS.src}/index.html`,
             filename: './index.html',
         }),
-        new CopyPlugin({
-            patterns: [
-                { from: `${PATHS.src}/components`, to: 'components' },
-                { from: `${PATHS.src}/assets`, to: 'assets' },
-                { from: `${PATHS.src}/templates`, to: 'templates' },
-            ],
-        }),
+        // new CopyPlugin({
+        //     patterns: [
+        //         // { from: `${PATHS.src}/components`, to: 'components' },
+        //         // { from: `${PATHS.src}/assets`, to: 'assets' },
+        //         // { from: `${PATHS.src}/templates`, to: 'templates' },
+        //     ],
+        // }),
     ],
 };

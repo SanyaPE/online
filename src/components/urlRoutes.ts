@@ -1,16 +1,16 @@
 import { IUrlRouters } from './models';
 
 const urlRoutes: IUrlRouters = {
-    '404': {
-        template: '/templates/404.html',
+    '#404': {
+        template: 'not-found',
         description: 'Page not found',
     },
     '/': {
-        template: '/templates/store.html',
-        description: 'Online-store page',
+        template: 'store',
+        description: 'Store page',
     },
-    cart: {
-        template: '/templates/cart.html',
+    '#cart': {
+        template: 'cart',
         description: 'Cart page',
     },
 };

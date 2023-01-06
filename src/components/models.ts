@@ -1,22 +1,31 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-interface IApp {
-    init: () => void;
-}
-
 interface IUrlRoutersItem {
     template: string;
     description: string;
 }
 
 interface IUrlRouters {
-    '404': IUrlRoutersItem;
+    '#404': IUrlRoutersItem;
     '/': IUrlRoutersItem;
-    cart: IUrlRoutersItem;
+    '#cart': IUrlRoutersItem;
 }
 
 interface IRouter {
     urlRoutes: IUrlRouters;
 }
 
-export { IApp, IUrlRoutersItem, IUrlRouters, IRouter };
+interface IFilter {
+    category?: string[] | null;
+    brand?: string[] | null;
+    price?: string[] | null;
+    stock?: string[] | null;
+}
+
+interface CustomizedState {
+    hash?: string;
+    target?: HTMLElement;
+    href?: string;
+    origin?: string;
+    pathname?: string;
+}
+
+export { IFilter, IUrlRoutersItem, IUrlRouters, IRouter, CustomizedState };
