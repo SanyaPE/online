@@ -281,6 +281,7 @@ class Filters {
 
         if (Object.values(this.tempObj).every((arr) => arr.length === 0)) {
             new Card(baseData).appendCards();
+            this.router.setRoute(this.tempObj)
             return;
         }
         if (this.tempObj.category.length !== 0) {

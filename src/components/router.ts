@@ -23,7 +23,6 @@ class Router {
     }
     public route(e?: Event) {
         console.log('route');
-        const filter = localStorage.getItem('filter');
         if (e) {
             console.log('EVENT');
             const target = e.target as HTMLElement;
@@ -32,7 +31,6 @@ class Router {
             const pathname = (target as CustomizedState).pathname;
             const url = `${origin}${pathname}${hash}`;
             history.pushState({}, '', url);
-            localStorage.removeItem('filter');
             console.log(window.location.href);
             this.parseRoute();
             // } else if (filter) {
@@ -74,7 +72,6 @@ class Router {
     }
     public setRoutFromFilter(filter: IFilter) {
         const url = this.createUrl(filter);
-        localStorage.removeItem('filter');
         window.history.pushState({}, '', url);
     }
     protected createUrl(filter: IFilter) {
@@ -101,16 +98,15 @@ class Router {
         const newUrl = this.createUrl(filter);
         if (newUrl.href === href) {
             this.filter = filter;
-            localStorage.setItem('filter', JSON.stringify(filter));
             return true;
         }
         return false;
     }
 
-    // setRoute(filter: IFilter) {
-    //     const url = this.createUrl(filter);
-    //     window.history.pushState({}, '', url);
-    // }
+    setRoute(filter: IFilter) {
+        const url = this.createUrl(filter);
+        window.history.pushState({}, '', url);
+    }
     // createUrl(filter: IFilter) {
     //     const href = window.location.href;
     //     const url = new URL(href);
