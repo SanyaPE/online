@@ -12,7 +12,7 @@ class App {
         this.router = new Router();
         this.router.init();
         document.addEventListener('click', (e: Event) => {
-            e.preventDefault();
+            // e.preventDefault();
             if (!(e.target as Element).closest('.nav__link')) return;
             this.router.route(e);
         });

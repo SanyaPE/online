@@ -27,5 +27,10 @@ interface CustomizedState {
     origin?: string;
     pathname?: string;
 }
-
-export { IFilter, IUrlRoutersItem, IUrlRouters, IRouter, CustomizedState };
+interface ITempObj {
+    category: string[];
+    brand: string[];
+    price: number[];
+    stock: number[];
+}
+export { IFilter, IUrlRoutersItem, IUrlRouters, IRouter, CustomizedState, ITempObj };

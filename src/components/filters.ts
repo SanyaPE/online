@@ -1,11 +1,7 @@
 import Card from './cards';
 import baseData, { Data } from './data-base';
-interface ITempObj {
-    category: string[];
-    brand: string[];
-    price: number[];
-    stock: number[];
-}
+import { ITempObj } from './models';
+
 class Filters {
     tempObj: ITempObj = {
         category: [],
