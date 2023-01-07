@@ -1,6 +1,7 @@
 import Card from './cards';
 import baseData, { Data } from './data-base';
 import { ITempObj } from './models';
+import Router from './router';
 
 class Filters {
     tempObj: ITempObj = {
@@ -10,6 +11,8 @@ class Filters {
         stock: [],
     };
     tempDataFromFilters: Data[] = [];
+
+    router: null | undefined;
 
     data: Data[];
     CATEGORY_ELEM: HTMLDivElement;
@@ -27,6 +30,8 @@ class Filters {
     productsContainer: HTMLDivElement;
     resetBtn: HTMLButtonElement;
     foundElem: HTMLDivElement;
+    sortBar: HTMLSelectElement;
+    searchBar: HTMLInputElement;
     constructor(data: Data[]) {
         this.data = data;
         this.CATEGORY_ELEM = document.querySelector("[filtername='category'] .filters__list") as HTMLDivElement;
@@ -45,6 +50,11 @@ class Filters {
         this.productsContainer = document.querySelector('.products__items') as HTMLDivElement;
         this.resetBtn = document.querySelector('.filters__reset-btn') as HTMLButtonElement;
         this.foundElem = document.querySelector('.stat') as HTMLDivElement;
+        this.sortBar = document.getElementById('sortBar') as HTMLSelectElement;
+        this.searchBar = document.querySelector('.search-bar input') as HTMLInputElement
+    }
+    get tempData() {
+        return this.tempDataFromFilters
     }
     _createFilters() {
         const categoryArr = Array.from(new Set(this.data.map((item) => item.category)));
@@ -214,6 +224,7 @@ class Filters {
         this._resetFiltersToBase();
     }
     _resetFiltersToBase() {
+        this.sortBar.selectedIndex = 0
         Object.keys(this.tempObj).forEach((key) => {
             this.tempObj[key as keyof typeof this.tempObj] = [];
         });
@@ -302,14 +313,94 @@ class Filters {
         }
         this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`;
         new Card(this.tempDataFromFilters).appendCards();
+        this._sortProducts()
+
+        console.log(this.tempObj);
+        // new Router().setRoute(this.tempObj)
+        this.router.setRoute(this.tempObj)
+
+    }
+    _sortProducts() {
+        let tempData = this.tempDataFromFilters
+        if (tempData.length === 0) {
+            this._appendCardsFromTemp()
+            return
+        }
+        this.productsContainer.innerHTML = '';
+        switch (this.sortBar.selectedIndex) {
+            case 1:
+                tempData = tempData.sort((a, b) => a.price - b.price)
+                break;
+            case 2:
+                tempData = tempData.sort((a, b) => b.price - a.price)
+                break;
+            case 3:
+                tempData = tempData.sort((a, b) => a.rating - b.rating)
+                break;
+            case 4:
+                tempData = tempData.sort((a, b) => b.rating - a.rating)
+                break;
+            case 5:
+                tempData = tempData.sort((a, b) => a.discountPercentage - b.discountPercentage)
+                break;
+            case 6:
+                tempData = tempData.sort((a, b) => b.discountPercentage - a.discountPercentage)
+                break;
+            default:
+                break;
+        }
+        new Card(tempData).appendCards()
+    }
+    _addListenersForTopProductsBars() {
+        this.sortBar.addEventListener('change', () => this._sortProducts());
+        this.searchBar.addEventListener('input', (e: Event) => this._findProducts(e.currentTarget as HTMLInputElement))
+    }
+    _findProducts(elem: HTMLInputElement) {
+        this.tempDataFromFilters = this.tempDataFromFilters.filter((item) => (`${item.title}${item.thumbnail}
+                                                                            ${item.category}${item.brand}
+                                                                            ${item.stock}${item.description}
+                                                                            ${item.price}${item.discountPercentage}
+                                                                            ${item.rating}`).includes(elem.value))
+        this._appendCardsFromTemp()
     }
     addFilters() {
+        this.router = new Router()
         this._createFilters();
         this._addListenersForCategory();
         this._addListenersForBrands();
         this._addListenersForPrice();
         this._addListenersForStock();
+        this._addListenersForTopProductsBars()
         this._resetFilters();
+    }
+    appendFromURL(tempObjFromUrl: ITempObj) {
+        this.tempObj = tempObjFromUrl
+        const categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll(
+            'input[type=checkbox]'
+        );
+        const brandInputs = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
+        for (let i = 0; i < categoryInputs.length; i++) {
+            const element = categoryInputs[i];
+            if (this.tempObj.category.includes(element.id)) {
+                element.checked = true
+            }
+        }
+        for (let i = 0; i < brandInputs.length; i++) {
+            const element = brandInputs[i];
+            if (this.tempObj.category.includes(element.id)) {
+                element.checked = true
+            }
+        }
+        this.fromSlider.value = String(this.tempObj.price[0]);
+        this.toSlider.value = String(this.tempObj.price[1]);
+        this.fromSliderStock.value = String(this.tempObj.stock[0]);
+        this.toSliderStock.value = String(this.tempObj.stock[1]);
+        this.fromInput.innerText = this.fromSlider.value;
+        this.toInput.innerText = this.toSlider.value;
+        this.fromInputStock.innerText = this.fromSliderStock.value;
+        this.toInputStock.innerText = this.toSliderStock.value;
+
+        this._appendCardsFromTemp()
     }
 }
 
