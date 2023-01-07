@@ -11,10 +11,10 @@
 <body>
     <header class="header">
         <div class="container header__container">
-            <h1 class="header__title"><a href="" class="nav__link">online-store</a></h1>
+            <h1 class="header__title"><a href="" class="nav__link link">online-store</a></h1>
             <nav class="nav">
                 <ul class="nav__list">
-                    <li class="nav__item"><a href="#cart" class="nav__link">Cart</a></li>
+                    <li class="nav__item"><a href="#cart" class="nav__link link">Cart</a></li>
                 </ul>
             </nav>
         </div>
@@ -122,6 +122,60 @@
     <section class="404">
         <div class="container">
             <h2>404</h1>
+        </div>
+    </section>
+</template>
+<template id="product-page">
+    <section class="product-details">
+        <div class="container">
+            <div class="product-path">
+                <span class="product-path__item">store</span>
+                <span class="product-path__item">>></span>
+                <span class="product-path__item">category</span>
+                <span class="product-path__item">>></span>
+                <span class="product-path__item">brand</span>
+                <span class="product-path__item">>></span>
+                <span class="product-path__item">title</span>
+            </div>
+            <div class="product">
+                <div class="product__head">
+                    <h3 class="product__title">title</h3>
+                </div>
+                <div class="product__body">
+                    <div class="product__img"></div>
+                    <div class="product__info">
+                        <div class="product__feature">
+                            <div class="product__feature-title">Description:</div>
+                            <div class="product__feature-desc">x</div>
+                        </div>
+                        <div class="product__feature">
+                            <div class="product__feature-title">Discount Percentage:</div>
+                            <div class="product__feature-discount">x</div>
+                        </div>
+                        <div class="product__feature">
+                            <div class="product__feature-title">Rating:</div>
+                            <div class="product__feature-rating">x</div>
+                        </div>
+                        <div class="product__feature">
+                            <div class="product__feature-title">Stock:</div>
+                            <div class="product__feature-stock">x</div>
+                        </div>
+                        <div class="product__feature">
+                            <div class="product__feature-title">Brand:</div>
+                            <div class="product__feature-brand">x</div>
+                        </div>
+                        <div class="product__feature">
+                            <div class="product__feature-title">Category:</div>
+                            <div class="product__feature-category">x</div>
+                        </div>
+                    </div>
+                    <div class="product__buy">
+                        <div class="product__price"></div>
+                        <button class="product__btn--cart"></button>
+                        <button class="product__btn--buy"></button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </template>
