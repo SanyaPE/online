@@ -331,17 +331,22 @@ class Filters {
     }
     _addListenersForTopProductsBars() {
         this.sortBar.addEventListener('change', () => this._sortProducts());
-        this.searchBar.addEventListener('input', (e: Event) => this._findProducts(e.currentTarget as HTMLInputElement));
+        this.searchBar.addEventListener('input', (e: Event) => this._findProducts((e.target as HTMLInputElement).value as string))
     }
-    _findProducts(elem: HTMLInputElement) {
-        this.tempDataFromFilters = this.tempDataFromFilters.filter((item) =>
-            `${item.title}${item.thumbnail}
-                                                                            ${item.category}${item.brand}
-                                                                            ${item.stock}${item.description}
-                                                                            ${item.price}${item.discountPercentage}
-                                                                            ${item.rating}`.includes(elem.value)
-        );
-        this._appendCardsFromTemp();
+    _findProducts(value: string) {
+        this.productsContainer.innerHTML = ''
+        let tempData = this.tempDataFromFilters.length ? this.tempDataFromFilters : baseData
+        console.log(tempData);
+
+        tempData = tempData.filter((item) => Object.values(item).map((prop) => String(prop))
+            .join('').replace(/\s/g, '').toLowerCase()
+            .includes(String(value).toLowerCase()))
+        console.log(tempData);
+        if (tempData.length) {
+            new Card(tempData).appendCards()
+            return
+        }
+        this.productsContainer.innerText = 'No items found'
     }
     addFilters() {
         this._createFilters();
