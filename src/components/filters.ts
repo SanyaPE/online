@@ -51,10 +51,10 @@ class Filters {
         this.resetBtn = document.querySelector('.filters__reset-btn') as HTMLButtonElement;
         this.foundElem = document.querySelector('.stat') as HTMLDivElement;
         this.sortBar = document.getElementById('sortBar') as HTMLSelectElement;
-        this.searchBar = document.querySelector('.search-bar input') as HTMLInputElement
+        this.searchBar = document.querySelector('.search-bar input') as HTMLInputElement;
     }
     get tempData() {
-        return this.tempDataFromFilters
+        return this.tempDataFromFilters;
     }
     _createFilters() {
         const categoryArr = Array.from(new Set(this.data.map((item) => item.category)));
@@ -224,13 +224,15 @@ class Filters {
         this._resetFiltersToBase();
     }
     _resetFiltersToBase() {
-        this.sortBar.selectedIndex = 0
+        this.sortBar.selectedIndex = 0;
         Object.keys(this.tempObj).forEach((key) => {
             this.tempObj[key as keyof typeof this.tempObj] = [];
         });
         this._appendCardsFromTemp();
         this._disableInputBoxes();
         this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`;
+        console.log('filter from filter', this.tempObj);
+        this.router.setRoute(this.tempObj);
     }
     _addListenersForBrands() {
         const brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]');
@@ -281,7 +283,7 @@ class Filters {
 
         if (Object.values(this.tempObj).every((arr) => arr.length === 0)) {
             new Card(baseData).appendCards();
-            this.router.setRoute(this.tempObj)
+            this.router.setRoute(this.tempObj);
             return;
         }
         if (this.tempObj.category.length !== 0) {
@@ -314,68 +316,69 @@ class Filters {
         }
         this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`;
         new Card(this.tempDataFromFilters).appendCards();
-        this._sortProducts()
+        this._sortProducts();
 
         console.log(this.tempObj);
         // new Router().setRoute(this.tempObj)
-        this.router.setRoute(this.tempObj)
-
+        this.router.setRoute(this.tempObj);
     }
     _sortProducts() {
-        let tempData = this.tempDataFromFilters
+        let tempData = this.tempDataFromFilters;
         if (tempData.length === 0) {
-            this._appendCardsFromTemp()
-            return
+            this._appendCardsFromTemp();
+            return;
         }
         this.productsContainer.innerHTML = '';
         switch (this.sortBar.selectedIndex) {
             case 1:
-                tempData = tempData.sort((a, b) => a.price - b.price)
+                tempData = tempData.sort((a, b) => a.price - b.price);
                 break;
             case 2:
-                tempData = tempData.sort((a, b) => b.price - a.price)
+                tempData = tempData.sort((a, b) => b.price - a.price);
                 break;
             case 3:
-                tempData = tempData.sort((a, b) => a.rating - b.rating)
+                tempData = tempData.sort((a, b) => a.rating - b.rating);
                 break;
             case 4:
-                tempData = tempData.sort((a, b) => b.rating - a.rating)
+                tempData = tempData.sort((a, b) => b.rating - a.rating);
                 break;
             case 5:
-                tempData = tempData.sort((a, b) => a.discountPercentage - b.discountPercentage)
+                tempData = tempData.sort((a, b) => a.discountPercentage - b.discountPercentage);
                 break;
             case 6:
-                tempData = tempData.sort((a, b) => b.discountPercentage - a.discountPercentage)
+                tempData = tempData.sort((a, b) => b.discountPercentage - a.discountPercentage);
                 break;
             default:
                 break;
         }
-        new Card(tempData).appendCards()
+        new Card(tempData).appendCards();
     }
     _addListenersForTopProductsBars() {
         this.sortBar.addEventListener('change', () => this._sortProducts());
-        this.searchBar.addEventListener('input', (e: Event) => this._findProducts(e.currentTarget as HTMLInputElement))
+        this.searchBar.addEventListener('input', (e: Event) => this._findProducts(e.currentTarget as HTMLInputElement));
     }
     _findProducts(elem: HTMLInputElement) {
-        this.tempDataFromFilters = this.tempDataFromFilters.filter((item) => (`${item.title}${item.thumbnail}
+        this.tempDataFromFilters = this.tempDataFromFilters.filter((item) =>
+            `${item.title}${item.thumbnail}
                                                                             ${item.category}${item.brand}
                                                                             ${item.stock}${item.description}
                                                                             ${item.price}${item.discountPercentage}
-                                                                            ${item.rating}`).includes(elem.value))
-        this._appendCardsFromTemp()
+                                                                            ${item.rating}`.includes(elem.value)
+        );
+        this._appendCardsFromTemp();
     }
     addFilters() {
-        this.router = new Router()
+        this.router = new Router();
         this._createFilters();
         this._addListenersForCategory();
         this._addListenersForBrands();
         this._addListenersForPrice();
         this._addListenersForStock();
-        this._addListenersForTopProductsBars()
+        this._addListenersForTopProductsBars();
         this._resetFilters();
     }
     appendFromURL(tempObjFromUrl: ITempObj) {
-        this.tempObj = tempObjFromUrl
+        this.tempObj = tempObjFromUrl;
         const categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll(
             'input[type=checkbox]'
         );
@@ -383,13 +386,13 @@ class Filters {
         for (let i = 0; i < categoryInputs.length; i++) {
             const element = categoryInputs[i];
             if (this.tempObj.category.includes(element.id)) {
-                element.checked = true
+                element.checked = true;
             }
         }
         for (let i = 0; i < brandInputs.length; i++) {
             const element = brandInputs[i];
             if (this.tempObj.category.includes(element.id)) {
-                element.checked = true
+                element.checked = true;
             }
         }
         this.fromSlider.value = String(this.tempObj.price[0]);
@@ -401,7 +404,7 @@ class Filters {
         this.fromInputStock.innerText = this.fromSliderStock.value;
         this.toInputStock.innerText = this.toSliderStock.value;
 
-        this._appendCardsFromTemp()
+        this._appendCardsFromTemp();
     }
 }
 

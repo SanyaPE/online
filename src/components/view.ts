@@ -10,7 +10,6 @@ class View {
         this.SMALL_VIEW = document.querySelector('.view-mode__small') as HTMLDivElement;
         this.BIG_VIEW = document.querySelector('.view-mode__big') as HTMLDivElement;
         this.ITEMS_LIST = document.querySelector('.products__items') as HTMLDivElement;
-
     }
     _toSmallView() {
         this.ITEMS_LIST.classList.add('_resize-products');

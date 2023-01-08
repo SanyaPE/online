@@ -33,11 +33,6 @@ class Router {
             history.pushState({}, '', url);
             console.log(window.location.href);
             this.parseRoute();
-            // } else if (filter) {
-            //     console.log('FILTER', filter);
-            //     console.log(window.location.href);
-            //     console.log(filter);
-            //     this.setRoutFromFilter(filter);
         } else {
             console.log('PARSE');
             console.log(window.location.href);
@@ -70,15 +65,24 @@ class Router {
             console.log('5');
         }
     }
-    public setRoutFromFilter(filter: IFilter) {
+
+    setRoute(filter: IFilter) {
         const url = this.createUrl(filter);
         window.history.pushState({}, '', url);
     }
+
     protected createUrl(filter: IFilter) {
+        console.log('createUrl');
+        console.log('filter from route', filter);
         const href = window.location.href;
         const url = new URL(href);
+        console.log(url);
+
         for (const key in filter) {
-            url.searchParams.set(`${key}`, `${filter[key as keyof typeof filter]}`);
+            const item: string[] | null | undefined = filter[key as keyof typeof filter];
+            if (item.length > 0) {
+                url.searchParams.set(`${key}`, `${filter[key as keyof typeof filter]}`);
+            } else url.searchParams.delete(key);
         }
         return url;
     }
@@ -103,18 +107,6 @@ class Router {
         return false;
     }
 
-    setRoute(filter: IFilter) {
-        const url = this.createUrl(filter);
-        window.history.pushState({}, '', url);
-    }
-    // createUrl(filter: IFilter) {
-    //     const href = window.location.href;
-    //     const url = new URL(href);
-    //     for (const key in filter) {
-    //         url.searchParams.set(`${key}`, `${filter[key as keyof typeof filter]}`);
-    //     }
-    //     return url;
-    // }
     protected loadPage(hash: string) {
         const main = document.querySelector('.main') as HTMLElement | null;
         const location = !hash ? '/' : hash;
