@@ -6,9 +6,9 @@ class Card {
         this.data = data;
     }
     _createCard(obj: Data) {
-        const cardId = obj.id
+        const cardId = obj.id;
         const cardElem = document.createElement('div');
-        cardElem.setAttribute('id', String(cardId))
+        cardElem.setAttribute('id', String(cardId));
         cardElem.classList.add('card');
         cardElem.style.background = `URL(${obj.images[0]}) 0 0 /cover`;
         const cardName = document.createElement('div');
