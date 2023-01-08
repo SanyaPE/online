@@ -1,9 +1,4 @@
 import Router from './router';
-// import Card from './cards';
-// import data from './data-base';
-// import Filters from './filters';
-// import urlRoutes from './urlRoutes';
-// import View from './view';
 
 class App {
     router: any;
@@ -21,17 +16,5 @@ class App {
             this.router.route();
         });
     }
-    // _cards() {
-    //     const card = new Card(data);
-    //     card.appendCards();
-    // }
-    // _view() {
-    //     const view = new View();
-    //     view.addListeners();
-    // }
-    // _filters() {
-    //     const filters = new Filters(data);
-    //     filters.addFilters();
-    // }
 }
 export default App;

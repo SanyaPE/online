@@ -5,8 +5,6 @@ import data from './data-base';
 import Filters from './filters';
 import View from './view';
 
-//http://localhost:8081/?category=smartphones%2Claptop&brand=apple%2Csamsung
-
 class Router {
     elements: any = {
         main: null,
