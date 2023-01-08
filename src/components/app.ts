@@ -13,8 +13,6 @@ class App {
         this.router.init();
         document.addEventListener('click', (e: Event) => {
             const target = e.target as Element;
-            console.log(target.closest('.link'));
-            // e.preventDefault();
             if (!(e.target as Element).closest('.nav__link')) return;
             this.router.route(e);
         });

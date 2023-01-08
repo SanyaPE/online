@@ -318,7 +318,7 @@ class Filters {
         new Card(this.tempDataFromFilters).appendCards();
         this._sortProducts();
 
-        console.log(this.tempObj);
+        // console.log(this.tempObj);
         // new Router().setRoute(this.tempObj)
         this.router.setRoute(this.tempObj);
     }
@@ -379,32 +379,34 @@ class Filters {
     }
     appendFromURL(tempObjFromUrl: ITempObj) {
         this.tempObj = tempObjFromUrl;
-        const categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll(
-            'input[type=checkbox]'
-        );
-        const brandInputs = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
-        for (let i = 0; i < categoryInputs.length; i++) {
-            const element = categoryInputs[i];
-            if (this.tempObj.category.includes(element.id)) {
-                element.checked = true;
-            }
-        }
-        for (let i = 0; i < brandInputs.length; i++) {
-            const element = brandInputs[i];
-            if (this.tempObj.category.includes(element.id)) {
-                element.checked = true;
-            }
-        }
-        this.fromSlider.value = String(this.tempObj.price[0]);
-        this.toSlider.value = String(this.tempObj.price[1]);
-        this.fromSliderStock.value = String(this.tempObj.stock[0]);
-        this.toSliderStock.value = String(this.tempObj.stock[1]);
-        this.fromInput.innerText = this.fromSlider.value;
-        this.toInput.innerText = this.toSlider.value;
-        this.fromInputStock.innerText = this.fromSliderStock.value;
-        this.toInputStock.innerText = this.toSliderStock.value;
+        console.log('filter from router.ts', this.tempObj);
 
-        this._appendCardsFromTemp();
+        // const categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll(
+        //     'input[type=checkbox]'
+        // );
+        // const brandInputs = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
+        // for (let i = 0; i < categoryInputs.length; i++) {
+        //     const element = categoryInputs[i];
+        //     if (this.tempObj.category.includes(element.id)) {
+        //         element.checked = true;
+        //     }
+        // }
+        // for (let i = 0; i < brandInputs.length; i++) {
+        //     const element = brandInputs[i];
+        //     if (this.tempObj.category.includes(element.id)) {
+        //         element.checked = true;
+        //     }
+        // }
+        // this.fromSlider.value = String(this.tempObj.price[0]);
+        // this.toSlider.value = String(this.tempObj.price[1]);
+        // this.fromSliderStock.value = String(this.tempObj.stock[0]);
+        // this.toSliderStock.value = String(this.tempObj.stock[1]);
+        // this.fromInput.innerText = this.fromSlider.value;
+        // this.toInput.innerText = this.toSlider.value;
+        // this.fromInputStock.innerText = this.fromSliderStock.value;
+        // this.toInputStock.innerText = this.toSliderStock.value;
+
+        // this._appendCardsFromTemp();
     }
 }
 
