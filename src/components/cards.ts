@@ -1,6 +1,7 @@
 import { Data } from './data-base.js';
 
 class Card {
+    cartElem = document.querySelector('#cartQnt') as HTMLSpanElement
     data: Data[];
     constructor(data: Data[]) {
         this.data = data;
@@ -30,7 +31,24 @@ class Card {
         cardElem.appendChild(cardName);
         cardElem.appendChild(infoElem);
         cardElem.appendChild(cardBtns);
+
+        addBtn.addEventListener('click', () => this._addProductToCart(cardId))
+
         return cardElem;
+    }
+    _addProductToCart(cardId: number) {
+        let parsedStorage = JSON.parse(localStorage.getItem('cart') as string)
+        if (cardId in parsedStorage) {
+            parsedStorage[cardId] = ++parsedStorage[cardId]
+        } else {
+            parsedStorage[cardId] = 1
+            parsedStorage['cartOrder'].push(cardId)
+        }
+        this.cartElem.innerText = String(Object.values(parsedStorage)
+            .filter((item) => typeof item === 'number')
+            .reduce((acc, curr) => Number(acc) + Number(curr)))
+        localStorage.setItem('cart', JSON.stringify(parsedStorage))
+
     }
     appendCards() {
         this.data.forEach((obj) => {
