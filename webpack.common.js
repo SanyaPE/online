@@ -14,7 +14,7 @@ module.exports = {
         path: PATHS.dist,
         assetModuleFilename: `${PATHS.assets}img/[name].[contenthash][ext]`,
         clean: true,
-        publicPath: '/',
+        publicPath: './',
     },
     optimization: {
         splitChunks: {
