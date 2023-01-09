@@ -149,7 +149,6 @@ class Filters {
             this.tempObj.category.splice(this.tempObj.category.indexOf(elem.id), 1);
         }
         this._appendCardsFromTemp();
-
     }
     _disableInputBoxes() {
         const brandArr = Array.from(new Set(this.tempDataFromFilters.map((item) => item.brand)));
@@ -183,9 +182,6 @@ class Filters {
             const currBrandQnt = this.tempDataFromFilters.filter((item) => item.brand === element.id).length;
             brandQnt.innerText = ` (${currBrandQnt}/${allBrandQnt})`;
         }
-
-
-
     }
     _resetFilters() {
         this.resetBtn.addEventListener('click', () => this._resetFiltersHandler());
@@ -231,7 +227,6 @@ class Filters {
             this.tempObj.brand.splice(this.tempObj.brand.indexOf(elem.id), 1);
         }
         this._appendCardsFromTemp();
-
     }
     _addListenersForPrice() {
         this.fromSlider.addEventListener('input', (e: Event) =>
@@ -244,7 +239,6 @@ class Filters {
     _addListenersForPriceHandler(elem: HTMLInputElement) {
         this.tempObj.price = [this.fromSlider.value, this.toSlider.value];
         this._appendCardsFromTemp();
-
     }
     _addListenersForStock() {
         this.fromSliderStock.addEventListener('input', (e: Event) =>
@@ -276,12 +270,16 @@ class Filters {
         }
         if (this.tempObj.price.length !== 0) {
             this.tempDataFromFilters = this.tempDataFromFilters.filter(
-                (item) => Number(item.price) >= Number(this.tempObj.price[0]) && Number(item.price) <= Number(this.tempObj.price[1])
+                (item) =>
+                    Number(item.price) >= Number(this.tempObj.price[0]) &&
+                    Number(item.price) <= Number(this.tempObj.price[1])
             );
         }
         if (this.tempObj.stock.length !== 0) {
             this.tempDataFromFilters = this.tempDataFromFilters.filter(
-                (item) => Number(item.stock) >= Number(this.tempObj.stock[0]) && Number(item.stock) <= Number(this.tempObj.stock[1])
+                (item) =>
+                    Number(item.stock) >= Number(this.tempObj.stock[0]) &&
+                    Number(item.stock) <= Number(this.tempObj.stock[1])
             );
         }
         this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`;
@@ -324,24 +322,31 @@ class Filters {
                 break;
         }
         new Card(tempData).appendCards();
-        this._findProducts(this.searchBar.value)
+        this._findProducts(this.searchBar.value);
     }
     _addListenersForTopProductsBars() {
         this.sortBar.addEventListener('change', () => this._sortProducts());
-        this.searchBar.addEventListener('input', (e: Event) => this._findProducts((e.target as HTMLInputElement).value as string))
+        this.searchBar.addEventListener('input', (e: Event) =>
+            this._findProducts((e.target as HTMLInputElement).value as string)
+        );
     }
     _findProducts(value: string) {
-        this.productsContainer.innerHTML = ''
-        let tempData = this.tempDataFromFilters.length ? this.tempDataFromFilters : baseData
-        tempData = tempData.filter((item) => Object.values(item).map((prop) => String(prop))
-            .join('').replace(/\s/g, '').toLowerCase()
-            .includes(String(value).replace(/\s/g, '').toLowerCase()))
+        this.productsContainer.innerHTML = '';
+        let tempData = this.tempDataFromFilters.length ? this.tempDataFromFilters : baseData;
+        tempData = tempData.filter((item) =>
+            Object.values(item)
+                .map((prop) => String(prop))
+                .join('')
+                .replace(/\s/g, '')
+                .toLowerCase()
+                .includes(String(value).replace(/\s/g, '').toLowerCase())
+        );
         if (tempData.length) {
-            new Card(tempData).appendCards()
+            new Card(tempData).appendCards();
             this.foundElem.innerText = `Found: ${tempData.length}`;
-            return
+            return;
         }
-        this.productsContainer.innerText = 'No items found'
+        this.productsContainer.innerText = 'No items found';
     }
     addFilters() {
         this._createFilters();
@@ -356,7 +361,9 @@ class Filters {
         this.tempObj = tempObjFromUrl;
         console.log('filter from router.ts', this.tempObj);
 
-        const categoryInputs = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
+        const categoryInputs = this.CATEGORY_ELEM.querySelectorAll(
+            'input[type=checkbox]'
+        ) as NodeListOf<HTMLInputElement>;
         const brandInputs = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
         this.fromSlider.value = String(this.tempObj.price[0] ? this.tempObj.price[0] : 0);
         this.toSlider.value = String(this.tempObj.price[1] ? this.tempObj.price[1] : 1749);
@@ -373,7 +380,7 @@ class Filters {
                 //     element.checked = true;
                 // } else {
                 //     element.checked = false;
-                element.click()
+                element.click();
             }
         }
         for (let i = 0; i < brandInputs.length; i++) {
@@ -382,11 +389,10 @@ class Filters {
                 //     element.checked = true;
                 // } else {
                 //     element.checked = false
-                element.click()
+                element.click();
             }
         }
         this._appendCardsFromTemp();
-
     }
 }
 

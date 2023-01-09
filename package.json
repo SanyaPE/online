@@ -6,8 +6,9 @@
     "main": "webpack.base.config.js",
     "scripts": {
         "start": "webpack serve --open --config ./webpack.config.js",
-        "watch": "webpack watch",
+        "dev": "cross-env NODE_ENV=development webpack --progress --config ./webpack.config.js",
         "build": "cross-env NODE_ENV=production webpack --progress --config ./webpack.config.js",
+        "watch": "webpack watch",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --fix"
     },
