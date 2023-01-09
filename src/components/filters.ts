@@ -259,7 +259,7 @@ class Filters {
         this._appendCardsFromTemp();
     }
     _appendCardsFromTemp() {
-        console.log('from func append', this.tempObj);
+        // console.log('from func append', this.tempObj);
 
         this.productsContainer.innerHTML = '';
         this.tempDataFromFilters = baseData;
@@ -354,7 +354,7 @@ class Filters {
     }
     appendFromURL(tempObjFromUrl: ITempObj) {
         this.tempObj = tempObjFromUrl;
-        console.log('filter from router.ts', this.tempObj);
+        // console.log('filter from router.ts', this.tempObj);
 
         const categoryInputs = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
         const brandInputs = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;

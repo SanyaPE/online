@@ -2,6 +2,7 @@
 
 $border: 1px solid peru;
 $bg-title: black;
+$main-color: rgb(143, 93, 44);
 
 .store {
     display: flex;
@@ -37,7 +38,7 @@ $bg-title: black;
     & button {
         padding-left: 2%;
         padding-right: 2%;
-        background-color: rgb(143, 93, 44);
+        background-color: $main-color;
         color: white;
         border: $border;
         border-radius: 1rem;
@@ -53,6 +54,7 @@ $bg-title: black;
     margin-bottom: 5%;
     border-radius: .5rem;
     border: $border;
+    height: fit-content;
 }
 
 .filters__category {}
@@ -65,11 +67,29 @@ $bg-title: black;
 
 .filters__list {
     overflow: hidden;
-    height: 15rem;
+    height: 18rem;
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
+// ------scroll-bar--------------
+.filters__list::-webkit-scrollbar {
+    width: 0.8em;
+}
+
+.filters__list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.filters__list::-webkit-scrollbar-thumb {
+    background: $main-color;
+}
+
+.filters__list::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+// ------------------------------
 .filters__list input[type="checkbox"] {
     margin-right: .5rem;
 }
@@ -167,7 +187,7 @@ $bg-title: black;
     display: flex;
     flex-direction: column;
     width: 80%;
-    margin: 35% auto;
+    margin: 10% auto;
 }
 
 .sliders_control {
@@ -179,8 +199,9 @@ $bg-title: black;
     position: relative;
     display: flex;
     justify-content: space-between;
-    font-size: 24px;
-    color: #635a5a;
+    font-size: 2rem;
+    color: $main-color;
+    margin-bottom: 6vh;
 }
 
 input[type=range]::-webkit-slider-thumb {
@@ -188,7 +209,7 @@ input[type=range]::-webkit-slider-thumb {
     pointer-events: all;
     width: 24px;
     height: 24px;
-    background-color: #fff;
+    background-color: $main-color;
     border-radius: 50%;
     box-shadow: 0 0 0 1px #C6C6C6;
     cursor: pointer;
@@ -206,7 +227,7 @@ input[type=range]::-moz-range-thumb {
 }
 
 input[type=range]::-webkit-slider-thumb:hover {
-    background: #f7f7f7;
+    background: #555;
 }
 
 input[type=range]::-webkit-slider-thumb:active {

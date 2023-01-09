@@ -4,6 +4,8 @@ import Card from './cards';
 import data from './data-base';
 import Filters from './filters';
 import View from './view';
+import cartStorage from './cart-storage';
+import Cart from './cart';
 
 class Router {
     elements: any = {
@@ -36,9 +38,13 @@ class Router {
         let location: string;
         const hash: string = !window.location.hash ? '/' : window.location.hash;
         const search: string = window.location.search;
+        // check storage for cart
+        new cartStorage().checkStorage()
+
         if (hash === '#cart') {
             console.log('1');
             this.loadPage(hash);
+            new Cart().appendProductsFromCart()
             return;
         } else if (hash === '/' && !search) {
             this.loadPage(hash);
