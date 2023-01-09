@@ -5,23 +5,46 @@ const CopyPlugin = require('copy-webpack-plugin');
 const PATHS = {
     src: path.join(__dirname, './src'),
     dist: path.join(__dirname, './dist'),
-    assets: 'assets/'
-  }
-
+    assets: 'assets/',
+}
 module.exports = {
-    entry: path.resolve(__dirname, './src/index.ts'),
+    entry: path.join(__dirname, './src/index.ts'),
     output: {
-        filename: 'index.js',
-        path: path.resolve(__dirname, './dist'),
+        filename: `${PATHS.assets}js/[name].[contenthash].js`,
+        path: PATHS.dist,
+        assetModuleFilename: `${PATHS.assets}img/[name].[contenthash][ext]`,
         clean: true,
-        publicPath: '/'
+        publicPath: '/',
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    name: 'vendors',
+                    test: /node_modules/,
+                    chunks: 'all',
+                    enforce: true,
+                },
+            },
+        },
     },
     devtool: 'inline-source-map',
     module: {
         rules: [
             {
-                test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
-                use: ['file-loader']
+                test: /\.(png|jpg|jpeg|gif)$/i,
+                type: 'asset/resource',
+            },
+            {
+                test: /\.svg$/,
+                type: 'asset/resource',
+                generator: {
+                    filename: `${PATHS.assets}icons/[name].[contenthash][ext]`,
+                },
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: 'asset/resource',
             },
             {
                 test: /\.tsx?$/,
@@ -38,18 +61,15 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
-
     plugins: [
         new HtmlWebpackPlugin({
             template: `${PATHS.src}/index.html`,
             filename: './index.html',
         }),
-        // new CopyPlugin({
-        //     patterns: [
-        //         // { from: `${PATHS.src}/components`, to: 'components' },
-        //         // { from: `${PATHS.src}/assets`, to: 'assets' },
-        //         // { from: `${PATHS.src}/templates`, to: 'templates' },
-        //     ],
-        // }),
+        new CopyPlugin({
+            patterns: [
+                { from: `${PATHS.src}/static`, to: PATHS.dist },
+            ],
+        }),
     ],
 };

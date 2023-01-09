@@ -1,5 +1,11 @@
 const webpack = require('webpack')
+const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const PATHS = {
+    src: path.join(__dirname, './src'),
+    dist: path.join(__dirname, './dist'),
+    assets: 'assets/'
+}
 
 module.exports = {
     mode: 'development',
@@ -8,17 +14,32 @@ module.exports = {
         port:8081,
         static: './dist',
     },
-    plugins:[
-        new webpack.SourceMapDevToolPlugin({
-            filename: '[file].map'
-        })
-    ],
     module: {
         rules: [
             {
-            test: /\.s[ac]ss$/i,
-            use: ['style-loader', "css-loader", 'postcss-loader','sass-loader'],
+                test: /\.s[ac]ss$/i,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    {
+                        loader: "sass-loader",
+                        options: {
+                            sourceMap: true,
+                            sassOptions: {
+                                outputStyle: "expanded",
+                            },
+                        },
+                    },
+                ],
             },
         ],
     },
+    plugins:[
+        new webpack.SourceMapDevToolPlugin({
+            filename: '[file].map'
+        }),
+        new MiniCssExtractPlugin({
+            filename:  `${PATHS.assets}css/[name].[contenthash].css`,
+        }),
+    ],
 };

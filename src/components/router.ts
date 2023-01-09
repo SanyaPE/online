@@ -58,7 +58,7 @@ class Router {
             view.addListeners();
             const filters = new Filters();
             // filters.addFilters();
-            filters.appendFromURL((this.filter as ITempObj));
+            filters.appendFromURL(this.filter as ITempObj);
         } else {
             location = '/';
             this.loadPage(location);
