@@ -1,4 +1,4 @@
-import { IUrlRouters, IFilter, CustomizedState } from './models';
+import { IUrlRouters, IFilter, CustomizedState, ITempObj } from './models';
 import urlRoutes from './urlRoutes';
 import Card from './cards';
 import data from './data-base';
@@ -56,9 +56,9 @@ class Router {
             card.appendCards();
             const view = new View();
             view.addListeners();
-            const filters = new Filters(data);
-            filters.addFilters();
-            filters.appendFromURL(this.filter);
+            const filters = new Filters();
+            // filters.addFilters();
+            filters.appendFromURL((this.filter as ITempObj));
         } else {
             location = '/';
             this.loadPage(location);
@@ -76,7 +76,7 @@ class Router {
         const url = new URL(href);
         for (const key in filter) {
             const item: string[] | null | undefined = filter[key as keyof typeof filter];
-            if (item.length > 0) {
+            if ((item as string[]).length > 0) {
                 url.searchParams.set(`${key}`, `${filter[key as keyof typeof filter]}`);
             } else url.searchParams.delete(key);
         }
@@ -104,16 +104,18 @@ class Router {
         const main = document.querySelector('.main') as HTMLElement | null;
         const location = !hash ? '/' : hash;
         const urlRoute = this.urlRoutes[location as keyof IUrlRouters];
-        const template = document.querySelector(`#${urlRoute.template}`) as HTMLElement;
+        const template = document.querySelector(`#${urlRoute.template}`) as HTMLTemplateElement;
         const clone = template.content.cloneNode(true);
-        main?.innerHTML = '';
-        main?.appendChild(clone);
+        if (main !== null) {
+            main.innerHTML = '';
+            main.appendChild(clone);
+        }
         if (location === '/') {
             const card = new Card(data);
             card.appendCards();
             const view = new View();
             view.addListeners();
-            const filters = new Filters(data);
+            const filters = new Filters();
             filters.addFilters();
         }
     }

@@ -11,10 +11,6 @@ class Filters {
         stock: [],
     };
     tempDataFromFilters: Data[] = [];
-
-    router: null | undefined;
-
-    data: Data[];
     CATEGORY_ELEM: HTMLDivElement;
     BRAND_ELEM: HTMLDivElement;
     PRICE_ELEM: HTMLDivElement;
@@ -32,8 +28,9 @@ class Filters {
     foundElem: HTMLDivElement;
     sortBar: HTMLSelectElement;
     searchBar: HTMLInputElement;
-    constructor(data: Data[]) {
-        this.data = data;
+    router: Router;
+    constructor() {
+        this.router = new Router();
         this.CATEGORY_ELEM = document.querySelector("[filtername='category'] .filters__list") as HTMLDivElement;
         this.BRAND_ELEM = document.querySelector("[filtername='brand'] .filters__list") as HTMLDivElement;
         this.PRICE_ELEM = document.querySelector("[filtername='category'] .filters__list") as HTMLDivElement;
@@ -53,12 +50,9 @@ class Filters {
         this.sortBar = document.getElementById('sortBar') as HTMLSelectElement;
         this.searchBar = document.querySelector('.search-bar input') as HTMLInputElement;
     }
-    get tempData() {
-        return this.tempDataFromFilters;
-    }
     _createFilters() {
-        const categoryArr = Array.from(new Set(this.data.map((item) => item.category)));
-        const brandArr = Array.from(new Set(this.data.map((item) => item.brand)));
+        const categoryArr = Array.from(new Set(baseData.map((item) => item.category)));
+        const brandArr = Array.from(new Set(baseData.map((item) => item.brand)));
         function appendCheckboxes(data: Data[], arr: string[], elemForAppend: HTMLDivElement) {
             for (const item of arr) {
                 const newCheckboxElem = document.createElement('div');
@@ -77,8 +71,8 @@ class Filters {
                 elemForAppend.appendChild(newCheckboxElem);
             }
         }
-        appendCheckboxes(this.data, categoryArr, this.CATEGORY_ELEM);
-        appendCheckboxes(this.data, brandArr, this.BRAND_ELEM);
+        appendCheckboxes(baseData, categoryArr, this.CATEGORY_ELEM);
+        appendCheckboxes(baseData, brandArr, this.BRAND_ELEM);
 
         // ----dual-range------
         function controlFromSlider(
@@ -155,7 +149,7 @@ class Filters {
             this.tempObj.category.splice(this.tempObj.category.indexOf(elem.id), 1);
         }
         this._appendCardsFromTemp();
-        this._disableInputBoxes();
+
     }
     _disableInputBoxes() {
         const brandArr = Array.from(new Set(this.tempDataFromFilters.map((item) => item.brand)));
@@ -190,16 +184,8 @@ class Filters {
             brandQnt.innerText = ` (${currBrandQnt}/${allBrandQnt})`;
         }
 
-        this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`;
 
-        // this.fromSlider.value = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b)[0])
-        // this.toSlider.value = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b).at(-1))
-        // this.fromInput.innerText = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b)[0])
-        // this.toInput.innerText = String(this.tempDataFromFilters.map((item) => item.price).sort((a, b) => a - b).at(-1))
-        // this.fromSliderStock.value = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b)[0])
-        // this.toSliderStock.value = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b).at(-1))
-        // this.fromInputStock.innerText = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b)[0])
-        // this.toInputStock.innerText = String(this.tempDataFromFilters.map((item) => item.stock).sort((a, b) => a - b).at(-1))
+
     }
     _resetFilters() {
         this.resetBtn.addEventListener('click', () => this._resetFiltersHandler());
@@ -229,10 +215,10 @@ class Filters {
             this.tempObj[key as keyof typeof this.tempObj] = [];
         });
         this._appendCardsFromTemp();
-        this._disableInputBoxes();
-        this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`;
-        console.log('filter from filter', this.tempObj);
-        this.router.setRoute(this.tempObj);
+
+        // this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`;
+        // console.log('filter from filter', this.tempObj);
+        // this.router.setRoute(this.tempObj);
     }
     _addListenersForBrands() {
         const brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]');
@@ -249,7 +235,7 @@ class Filters {
             this.tempObj.brand.splice(this.tempObj.brand.indexOf(elem.id), 1);
         }
         this._appendCardsFromTemp();
-        this._disableInputBoxes();
+
     }
     _addListenersForPrice() {
         this.fromSlider.addEventListener('input', (e: Event) =>
@@ -260,9 +246,9 @@ class Filters {
         );
     }
     _addListenersForPriceHandler(elem: HTMLInputElement) {
-        this.tempObj.price = [Number(this.fromSlider.value), Number(this.toSlider.value)];
+        this.tempObj.price = [this.fromSlider.value, this.toSlider.value];
         this._appendCardsFromTemp();
-        this._disableInputBoxes();
+
     }
     _addListenersForStock() {
         this.fromSliderStock.addEventListener('input', (e: Event) =>
@@ -273,19 +259,15 @@ class Filters {
         );
     }
     _addListenersForStockHandler(elem: HTMLInputElement) {
-        this.tempObj.stock = [Number(this.fromSliderStock.value), Number(this.toSliderStock.value)];
+        this.tempObj.stock = [this.fromSliderStock.value, this.toSliderStock.value];
         this._appendCardsFromTemp();
-        this._disableInputBoxes();
     }
     _appendCardsFromTemp() {
+        console.log('from func append', this.tempObj);
+
         this.productsContainer.innerHTML = '';
         this.tempDataFromFilters = baseData;
 
-        if (Object.values(this.tempObj).every((arr) => arr.length === 0)) {
-            new Card(baseData).appendCards();
-            this.router.setRoute(this.tempObj);
-            return;
-        }
         if (this.tempObj.category.length !== 0) {
             this.tempDataFromFilters = this.tempDataFromFilters.filter((item) =>
                 this.tempObj.category.some((itemId) => itemId === item.category)
@@ -298,28 +280,22 @@ class Filters {
         }
         if (this.tempObj.price.length !== 0) {
             this.tempDataFromFilters = this.tempDataFromFilters.filter(
-                (item) => item.price >= this.tempObj.price[0] && item.price <= this.tempObj.price[1]
+                (item) => Number(item.price) >= Number(this.tempObj.price[0]) && Number(item.price) <= Number(this.tempObj.price[1])
             );
         }
         if (this.tempObj.stock.length !== 0) {
             this.tempDataFromFilters = this.tempDataFromFilters.filter(
-                (item) => item.stock >= this.tempObj.stock[0] && item.stock <= this.tempObj.stock[1]
+                (item) => Number(item.stock) >= Number(this.tempObj.stock[0]) && Number(item.stock) <= Number(this.tempObj.stock[1])
             );
         }
-        if (this.tempDataFromFilters.length === 0) {
-            if (Object.values(this.tempObj).some((arr) => arr.length !== 0)) {
-                this.productsContainer.innerText = 'No Items found';
-            } else {
-                new Card(baseData).appendCards();
-            }
-            return;
-        }
         this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`;
-        new Card(this.tempDataFromFilters).appendCards();
-        this._sortProducts();
-
-        // console.log(this.tempObj);
-        // new Router().setRoute(this.tempObj)
+        if (this.tempDataFromFilters.length === 0 && Object.values(this.tempObj).some((arr) => arr.length !== 0)) {
+            this.productsContainer.innerText = 'No Items found';
+        } else {
+            new Card(this.tempDataFromFilters).appendCards();
+            this._sortProducts();
+        }
+        this._disableInputBoxes();
         this.router.setRoute(this.tempObj);
     }
     _sortProducts() {
@@ -368,7 +344,6 @@ class Filters {
         this._appendCardsFromTemp();
     }
     addFilters() {
-        this.router = new Router();
         this._createFilters();
         this._addListenersForCategory();
         this._addListenersForBrands();
@@ -381,32 +356,55 @@ class Filters {
         this.tempObj = tempObjFromUrl;
         console.log('filter from router.ts', this.tempObj);
 
-        // const categoryInputs: NodeListOf<HTMLInputElement> = this.CATEGORY_ELEM.querySelectorAll(
-        //     'input[type=checkbox]'
-        // );
-        // const brandInputs = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
+        const categoryInputs = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
+        const brandInputs = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
         // for (let i = 0; i < categoryInputs.length; i++) {
         //     const element = categoryInputs[i];
         //     if (this.tempObj.category.includes(element.id)) {
-        //         element.checked = true;
+        //         //     element.checked = true;
+        //         // } else {
+        //         //     element.checked = false;
+        //         element.click()
         //     }
         // }
         // for (let i = 0; i < brandInputs.length; i++) {
         //     const element = brandInputs[i];
         //     if (this.tempObj.category.includes(element.id)) {
-        //         element.checked = true;
+        //         //     element.checked = true;
+        //         // } else {
+        //         //     element.checked = false
+        //         element.click()
         //     }
         // }
-        // this.fromSlider.value = String(this.tempObj.price[0]);
-        // this.toSlider.value = String(this.tempObj.price[1]);
-        // this.fromSliderStock.value = String(this.tempObj.stock[0]);
-        // this.toSliderStock.value = String(this.tempObj.stock[1]);
-        // this.fromInput.innerText = this.fromSlider.value;
-        // this.toInput.innerText = this.toSlider.value;
-        // this.fromInputStock.innerText = this.fromSliderStock.value;
-        // this.toInputStock.innerText = this.toSliderStock.value;
+        this.fromSlider.value = String(this.tempObj.price[0] ? this.tempObj.price[0] : 0);
+        this.toSlider.value = String(this.tempObj.price[1] ? this.tempObj.price[1] : 1749);
+        this.fromSliderStock.value = String(this.tempObj.stock[0] ? this.tempObj.stock[0] : 0);
+        this.toSliderStock.value = String(this.tempObj.stock[1] ? this.tempObj.stock[1] : 150);
+        this.fromInput.innerText = this.fromSlider.value;
+        this.toInput.innerText = this.toSlider.value;
+        this.fromInputStock.innerText = this.fromSliderStock.value;
+        this.toInputStock.innerText = this.toSliderStock.value;
 
-        // this._appendCardsFromTemp();
+        for (let i = 0; i < categoryInputs.length; i++) {
+            const element = categoryInputs[i];
+            if (this.tempObj.category.includes(element.id)) {
+                //     element.checked = true;
+                // } else {
+                //     element.checked = false;
+                element.click()
+            }
+        }
+        for (let i = 0; i < brandInputs.length; i++) {
+            const element = brandInputs[i];
+            if (this.tempObj.brand.includes(element.id)) {
+                //     element.checked = true;
+                // } else {
+                //     element.checked = false
+                element.click()
+            }
+        }
+        this._appendCardsFromTemp();
+
     }
 }
 

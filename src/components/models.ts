@@ -30,7 +30,7 @@ interface CustomizedState {
 interface ITempObj {
     category: string[];
     brand: string[];
-    price: number[];
-    stock: number[];
+    price: string[];
+    stock: string[];
 }
 export { IFilter, IUrlRoutersItem, IUrlRouters, IRouter, CustomizedState, ITempObj };
