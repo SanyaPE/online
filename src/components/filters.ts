@@ -215,10 +215,6 @@ class Filters {
             this.tempObj[key as keyof typeof this.tempObj] = [];
         });
         this._appendCardsFromTemp();
-
-        // this.foundElem.innerText = `Found: ${this.tempDataFromFilters.length}`;
-        // console.log('filter from filter', this.tempObj);
-        // this.router.setRoute(this.tempObj);
     }
     _addListenersForBrands() {
         const brandInputs: NodeListOf<HTMLInputElement> = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]');
@@ -328,6 +324,7 @@ class Filters {
                 break;
         }
         new Card(tempData).appendCards();
+        this._findProducts(this.searchBar.value)
     }
     _addListenersForTopProductsBars() {
         this.sortBar.addEventListener('change', () => this._sortProducts());
@@ -336,14 +333,12 @@ class Filters {
     _findProducts(value: string) {
         this.productsContainer.innerHTML = ''
         let tempData = this.tempDataFromFilters.length ? this.tempDataFromFilters : baseData
-        console.log(tempData);
-
         tempData = tempData.filter((item) => Object.values(item).map((prop) => String(prop))
             .join('').replace(/\s/g, '').toLowerCase()
-            .includes(String(value).toLowerCase()))
-        console.log(tempData);
+            .includes(String(value).replace(/\s/g, '').toLowerCase()))
         if (tempData.length) {
             new Card(tempData).appendCards()
+            this.foundElem.innerText = `Found: ${tempData.length}`;
             return
         }
         this.productsContainer.innerText = 'No items found'
@@ -363,24 +358,6 @@ class Filters {
 
         const categoryInputs = this.CATEGORY_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
         const brandInputs = this.BRAND_ELEM.querySelectorAll('input[type=checkbox]') as NodeListOf<HTMLInputElement>;
-        // for (let i = 0; i < categoryInputs.length; i++) {
-        //     const element = categoryInputs[i];
-        //     if (this.tempObj.category.includes(element.id)) {
-        //         //     element.checked = true;
-        //         // } else {
-        //         //     element.checked = false;
-        //         element.click()
-        //     }
-        // }
-        // for (let i = 0; i < brandInputs.length; i++) {
-        //     const element = brandInputs[i];
-        //     if (this.tempObj.category.includes(element.id)) {
-        //         //     element.checked = true;
-        //         // } else {
-        //         //     element.checked = false
-        //         element.click()
-        //     }
-        // }
         this.fromSlider.value = String(this.tempObj.price[0] ? this.tempObj.price[0] : 0);
         this.toSlider.value = String(this.tempObj.price[1] ? this.tempObj.price[1] : 1749);
         this.fromSliderStock.value = String(this.tempObj.stock[0] ? this.tempObj.stock[0] : 0);
