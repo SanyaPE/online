@@ -33,4 +33,8 @@ interface ITempObj {
     price: string[];
     stock: string[];
 }
-export { IFilter, IUrlRoutersItem, IUrlRouters, IRouter, CustomizedState, ITempObj };
+interface ILocalStorageCartObj {
+    [itemId: number]: number;
+    cartOrder: number[]
+}
+export { IFilter, IUrlRoutersItem, IUrlRouters, IRouter, CustomizedState, ITempObj, ILocalStorageCartObj };

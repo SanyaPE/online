@@ -33,11 +33,17 @@
 <template id="cart">
     <section class="cart">
         <div class="cart__products-container container">
-            <h2 class="cart__products-container__title">Products in cart</h2>
-            <div class="cart__products-list"></div>
-        </div>
-        <div class="cart__summary-container">
-            <h2 class="cart__summary-container__title">Summary</h2>
+            <div class="cart__products-list">
+                <h2 class="cart__products-container__title">Products in cart</h2>
+            </div>
+            <div class="cart__summary-container">
+                <h2 class="cart__summary-container__title">Summary</h2>
+                <div class="cart__summary-container__content">
+                    <div class="cart__summary-container__productsQnt">Products: <span id="smryPrQnt">0</span></div>
+                    <div class="cart__summary-container__total">Total: <span id="totalPrice">0</span>$</div>
+                    <button class="cart__buyBtn">BUY NOW!</button>
+                </div>
+            </div>
         </div>
     </section>
 </template>
