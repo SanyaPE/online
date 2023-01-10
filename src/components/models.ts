@@ -35,6 +35,6 @@ interface ITempObj {
 }
 interface ILocalStorageCartObj {
     [itemId: number]: number;
-    cartOrder: number[]
+    cartOrder: number[];
 }
 export { IFilter, IUrlRoutersItem, IUrlRouters, IRouter, CustomizedState, ITempObj, ILocalStorageCartObj };

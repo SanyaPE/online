@@ -39,12 +39,12 @@ class Router {
         const hash: string = !window.location.hash ? '/' : window.location.hash;
         const search: string = window.location.search;
         // check storage for cart
-        new cartStorage().checkStorage()
+        new cartStorage().checkStorage();
 
         if (hash === '#cart') {
             console.log('1');
             this.loadPage(hash);
-            new Cart().appendProductsFromCart()
+            new Cart().appendProductsFromCart();
             return;
         } else if (hash === '/' && !search) {
             this.loadPage(hash);

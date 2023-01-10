@@ -1,7 +1,3 @@
-import Card from './cards';
-import data, { Data } from './data-base';
-import Filters from './filters';
-
 class View {
     SMALL_VIEW: HTMLDivElement;
     BIG_VIEW: HTMLDivElement;
