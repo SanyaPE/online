@@ -29,6 +29,7 @@ class Filters {
     sortBar: HTMLSelectElement;
     searchBar: HTMLInputElement;
     router: Router;
+    copyBtn = document.querySelector('.filters__copyLink-btn') as HTMLButtonElement
     constructor() {
         this.router = new Router();
         this.CATEGORY_ELEM = document.querySelector("[filtername='category'] .filters__list") as HTMLDivElement;
@@ -253,7 +254,7 @@ class Filters {
         this._appendCardsFromTemp();
     }
     _appendCardsFromTemp() {
-        console.log('from func append', this.tempObj);
+        // console.log('from func append', this.tempObj);
 
         this.productsContainer.innerHTML = '';
         this.tempDataFromFilters = baseData;
@@ -356,10 +357,16 @@ class Filters {
         this._addListenersForStock();
         this._addListenersForTopProductsBars();
         this._resetFilters();
+        this._addListenerForCopyBtn()
+    }
+    _addListenerForCopyBtn() {
+        this.copyBtn.addEventListener('click', () => {
+            window.navigator.clipboard.writeText(window.location.href)
+        })
     }
     appendFromURL(tempObjFromUrl: ITempObj) {
         this.tempObj = tempObjFromUrl;
-        console.log('filter from router.ts', this.tempObj);
+        // console.log('filter from router.ts', this.tempObj);
 
         const categoryInputs = this.CATEGORY_ELEM.querySelectorAll(
             'input[type=checkbox]'

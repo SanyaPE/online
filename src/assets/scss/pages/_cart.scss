@@ -1,1 +1,130 @@
 /* _-_-_- pages/CART -_-_-_ */
+
+
+.cart__products-container {
+    display: flex;
+}
+
+.cart__products-list {
+    width: 80%;
+}
+
+.cart__cart-elem {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+    border: 1px solid black;
+    border-radius: 1%;
+
+    padding: 1%;
+}
+
+.cart__cart-elem__itemIndx {
+    background-color: rgb(0, 0, 0);
+    border-radius: 25%;
+    width: 8%;
+    height: 8%;
+    text-align: center;
+    vertical-align: middle;
+    margin: auto 1rem auto 0;
+}
+
+.cart__cart-elem__itemInfo {
+    width: 30rem;
+    height: 8rem;
+    border: 1px solid black;
+    border-radius: 6%;
+    margin: auto;
+    margin-right: 2rem;
+}
+
+.cart__cart-elem__itemDetails {
+    width: 100vw;
+    margin-right: 1vw;
+}
+
+.cart__cart-elem__itemDetails__title {}
+
+.cart__cart-elem__itemDetails__description {}
+
+.cart__cart-elem__itemDetails__other {}
+
+.cart__cart-elem__numberCntrl {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 23vw;
+}
+
+.cart__cart-elem__numberCntrl div {
+    text-align: center;
+}
+
+.cart__cart-elem__numberCntrl button {
+    background-color: rgb(207, 12, 12);
+    height: 3rem;
+    width: 3rem;
+    text-align: center;
+    border: none;
+    border-radius: 25%;
+    font-size: 2rem;
+}
+
+.cart__cart-elem__numberCntrl span {
+    font-size: 2rem;
+    margin: auto 0;
+}
+
+.cart__cart-elem__numberCntrl__qnt {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cart__summary-container {
+    height: 40vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart__summary-container__content {
+    margin-left: 2%;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0 0.2rem;
+    height: 40vh;
+    font-size: 2rem;
+}
+
+.cart__summary-container div {
+    text-align: center;
+}
+
+.cart__summary-container__title {}
+
+.cart__summary-container__productsQnt {}
+
+.cart__summary-container__total {}
+
+.cart__buyBtn {
+    background-color: rgb(207, 12, 12);
+    border: 1px solid #555;
+    border-radius: 15px;
+    font-size: 2vw;
+    color: white;
+    width: fit-content;
+    padding: 0.6rem 1rem;
+}
+
+#cartQnt {
+    position: relative;
+    background-color: rgb(207, 12, 12);
+    width: 5rem;
+    height: 5rem;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 5rem;
+    font-size: 2rem;
+}
