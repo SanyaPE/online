@@ -275,3 +275,26 @@ input[type="range"] {
         color: gray;
     }
 }
+
+.footer {
+    height: 100px;
+    background-color: #555;
+    padding: 15px;
+}
+
+.footer__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    width: 170px;
+    justify-content: space-between;
+}
+
+.footer__year {
+    color: #000;
+}
