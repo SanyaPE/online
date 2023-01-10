@@ -6,12 +6,12 @@ const PATHS = {
     src: path.join(__dirname, './src'),
     dist: path.join(__dirname, './dist'),
     assets: 'assets/',
-}
+};
 module.exports = {
     entry: path.join(__dirname, './src/index.ts'),
     output: {
-        filename: `${PATHS.assets}js/[name].[contenthash].js`,
         path: PATHS.dist,
+        filename: `${PATHS.assets}js/[name].[contenthash].js`,
         assetModuleFilename: `${PATHS.assets}img/[name].[contenthash][ext]`,
         clean: true,
         publicPath: './',
@@ -67,9 +67,7 @@ module.exports = {
             filename: './index.html',
         }),
         new CopyPlugin({
-            patterns: [
-                { from: `${PATHS.src}/static`, to: PATHS.dist },
-            ],
+            patterns: [{ from: `${PATHS.src}/static`, to: PATHS.dist }],
         }),
     ],
 };
