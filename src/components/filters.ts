@@ -29,7 +29,7 @@ class Filters {
     sortBar: HTMLSelectElement;
     searchBar: HTMLInputElement;
     router: Router;
-    copyBtn = document.querySelector('.filters__copyLink-btn') as HTMLButtonElement
+    copyBtn = document.querySelector('.filters__copyLink-btn') as HTMLButtonElement;
     constructor() {
         this.router = new Router();
         this.CATEGORY_ELEM = document.querySelector("[filtername='category'] .filters__list") as HTMLDivElement;
@@ -231,31 +231,29 @@ class Filters {
     }
     _addListenersForPrice() {
         this.fromSlider.addEventListener('input', (e: Event) =>
-            this._addListenersForPriceHandler(e.currentTarget as HTMLInputElement)
+            this._addListenersForPriceHandler(/* e.currentTarget as HTMLInputElement */)
         );
         this.toSlider.addEventListener('input', (e: Event) =>
-            this._addListenersForPriceHandler(e.currentTarget as HTMLInputElement)
+            this._addListenersForPriceHandler(/* e.currentTarget as HTMLInputElement */)
         );
     }
-    _addListenersForPriceHandler(elem: HTMLInputElement) {
+    _addListenersForPriceHandler(/* elem: HTMLInputElement */) {
         this.tempObj.price = [this.fromSlider.value, this.toSlider.value];
         this._appendCardsFromTemp();
     }
     _addListenersForStock() {
         this.fromSliderStock.addEventListener('input', (e: Event) =>
-            this._addListenersForStockHandler(e.currentTarget as HTMLInputElement)
+            this._addListenersForStockHandler(/* e.currentTarget as HTMLInputElement */)
         );
         this.toSliderStock.addEventListener('input', (e: Event) =>
-            this._addListenersForStockHandler(e.currentTarget as HTMLInputElement)
+            this._addListenersForStockHandler(/* e.currentTarget as HTMLInputElement */)
         );
     }
-    _addListenersForStockHandler(elem: HTMLInputElement) {
+    _addListenersForStockHandler(/* elem: HTMLInputElement */) {
         this.tempObj.stock = [this.fromSliderStock.value, this.toSliderStock.value];
         this._appendCardsFromTemp();
     }
     _appendCardsFromTemp() {
-        // console.log('from func append', this.tempObj);
-
         this.productsContainer.innerHTML = '';
         this.tempDataFromFilters = baseData;
 
@@ -357,17 +355,15 @@ class Filters {
         this._addListenersForStock();
         this._addListenersForTopProductsBars();
         this._resetFilters();
-        this._addListenerForCopyBtn()
+        this._addListenerForCopyBtn();
     }
     _addListenerForCopyBtn() {
         this.copyBtn.addEventListener('click', () => {
-            window.navigator.clipboard.writeText(window.location.href)
-        })
+            window.navigator.clipboard.writeText(window.location.href);
+        });
     }
     appendFromURL(tempObjFromUrl: ITempObj) {
         this.tempObj = tempObjFromUrl;
-        // console.log('filter from router.ts', this.tempObj);
-
         const categoryInputs = this.CATEGORY_ELEM.querySelectorAll(
             'input[type=checkbox]'
         ) as NodeListOf<HTMLInputElement>;
