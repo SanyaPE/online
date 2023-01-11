@@ -5,10 +5,8 @@
     "description": "",
     "main": "webpack.base.config.js",
     "scripts": {
-        "start": "cross-env NODE_ENV=development webpack serve --config ./webpack.config.js",
-        "dev": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
+        "start": "cross-env NODE_ENV=development webpack serve --open --config ./webpack.config.js",
         "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
-        "watch": "cross-env NODE_ENV=development webpack watch",
         "lint": "eslint . --ext .ts",
         "lint:fix": "eslint . --fix"
     },
