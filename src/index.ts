@@ -5,4 +5,3 @@ const app = new App();
 document.addEventListener('DOMContentLoaded', () => {
     app.init();
 });
-console.log('hello')

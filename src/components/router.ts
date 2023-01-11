@@ -42,21 +42,21 @@ class Router {
         new cartStorage().checkStorage();
 
         if (hash === '#cart') {
-            console.log('1');
+            // console.log('1');
             this.loadPage(hash);
             new Cart().appendProductsFromCart();
             return;
         } else if (hash === '/' && !search) {
             this.loadPage(hash);
-            console.log('2');
+            // console.log('2');
             return;
         } else if (!['/', '#cart'].includes(hash)) {
             this.loadPage('#404');
-            console.log('3');
+            // console.log('3');
             return;
         } else if (this.checkRoute()) {
             location = '/';
-            console.log('4');
+            // console.log('4');
             this.loadPage(location);
             const card = new Card(data);
             card.appendCards();
@@ -68,7 +68,7 @@ class Router {
         } else {
             location = '/';
             this.loadPage(location);
-            console.log('5');
+            // console.log('5');
         }
     }
 
@@ -98,7 +98,7 @@ class Router {
             else filter[option as keyof typeof filter] = [];
         });
         this.filter = filter;
-        console.log('filter to filters.ts', this.filter);
+        // console.log('filter to filters.ts', this.filter);
         return this.checkDataFilter();
     }
     protected checkDataFilter() {

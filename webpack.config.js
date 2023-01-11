@@ -1,15 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { merge } = require('webpack-merge');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const baseConfig = {
-    mode: 'development',
     entry: path.join(__dirname, './src/index.ts'),
     output: {
         path: path.join(__dirname, './dist'),
-        filename: '[name].[contenthash].js',
         assetModuleFilename: 'assets/[hash][ext]',
         clean: true,
     },
@@ -28,26 +26,19 @@ const baseConfig = {
     module: {
         rules: [
             {
-                test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
+                test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
                 type: 'asset/resource',
+                generator: {
+                    filename: 'assets/img/[hash][ext]'
+                }
+            },
+            {
+                test: /\.svg/i,
+                type: 'assets/icons/[hash][ext]',
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
-            },
-            {
-                test: /\.(s[ac]|c)ss$/i,
-                use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            publicPath: '',
-                        },
-                    },
-                    'css-loader',
-                    'postcss-loader',
-                    'sass-loader',
-                ],
             },
             {
                 test: /\.ts?$/,
@@ -69,11 +60,8 @@ const baseConfig = {
             template: path.resolve(__dirname, './src/index.html'),
             filename: './index.html',
         }),
-        new MiniCssExtractPlugin({
-            filename: 'style.css',
-        }),
         new CopyPlugin({
-            patterns: [{ from: `./src/static`, to: './' }],
+            patterns: [{ from: `./src/static`, to: './assets' }],
         }),
         new ESLintPlugin({
             extensions: [`js`, `ts`],
@@ -82,9 +70,8 @@ const baseConfig = {
     ],
 };
 
-module.exports = ({ mode }) => {
-    const isProductionMode = mode === 'production';
-    const envConfig = isProductionMode ? require('./webpack.production') : require('./webpack.development');
-
-    return merge(baseConfig, envConfig);
+module.exports = (env, argv) => {
+    const buildMode = process.env.NODE_ENV === 'production' ? 'production' : 'development'
+    const modeConfig = require(`./webpack.${buildMode}.js`)
+    return merge(baseConfig, modeConfig);
 };
