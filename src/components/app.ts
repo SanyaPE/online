@@ -11,7 +11,7 @@ class App {
             this.router.route(e);
         });
         window.addEventListener('popstate', () => {
-            console.log('popstate');
+            // console.log('popstate');
             this.router.route();
         });
     }

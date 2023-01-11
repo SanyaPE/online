@@ -1,45 +1,59 @@
-const webpack = require('webpack')
+const webpack = require('webpack');
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const PATHS = {
-    src: path.join(__dirname, './src'),
-    dist: path.join(__dirname, './dist'),
-    assets: 'assets/'
-}
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    mode: 'development',
-    devtool: 'source-map',
-    devServer: {
-        port:8081,
-        static: './dist',
+  mode: 'development',
+  output:{
+    filename: '[name].js',
+},
+  devtool: 'inline-source-map',
+  devServer: {
+    port: 8015,
+    static: {
+      directory: path.join(__dirname, '../dist'),
     },
-    module: {
-        rules: [
-            {
-                test: /\.s[ac]ss$/i,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    {
-                        loader: "sass-loader",
-                        options: {
-                            sourceMap: true,
-                            sassOptions: {
-                                outputStyle: "expanded",
-                            },
-                        },
+  },
+  module:{
+    rules: [
+        {
+            test: /\.(s[ac]|c)ss$/i,
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: '',
                     },
-                ],
-            },
-        ],
-    },
-    plugins:[
-        new webpack.SourceMapDevToolPlugin({
-            filename: '[file].map'
-        }),
-        new MiniCssExtractPlugin({
-            filename:  `${PATHS.assets}css/[name].[contenthash].css`,
-        }),
-    ],
-};
+                },
+                'css-loader',
+                {
+                    loader: 'postcss-loader',
+                    options:{
+                        postcssOptions:{
+                            plugins: {
+                                "postcss-preset-env": {browsers: 'last 2 versions'}
+                            }
+                        }
+
+                    }
+                },
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        sourceMap: true,
+                        sassOptions: {outputStyle: "expanded"},
+                    },
+                }
+            ],
+        },
+    ]
+},
+plugins:[
+    new MiniCssExtractPlugin({
+        filename: '[name].css',
+    }),
+    new webpack.SourceMapDevToolPlugin({
+      filename: '[file].map'
+  }),
+]
+}

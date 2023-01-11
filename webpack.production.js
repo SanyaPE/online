@@ -1,38 +1,50 @@
-const webpack = require('webpack')
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const PATHS = {
-    src: path.join(__dirname, './src'),
-    dist: path.join(__dirname, './dist'),
-    assets: 'assets/'
-}
-
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports =  {
     mode: 'production',
-    devtool: 'source-map',
-    module: {
+    output:{
+        filename: '[name].[chunkhash:8].js',
+    },
+    module:{
         rules: [
             {
-                test: /\.s[ac]ss$/i,
+                test: /\.(s[ac]|c)ss$/i,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
                     {
-                        loader: "sass-loader",
+                        loader: MiniCssExtractPlugin.loader,
                         options: {
-                            sourceMap: true,
+                            publicPath: '',
+                        },
+                    },
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options:{
+                            postcssOptions:{
+                                plugins: {
+                                    "postcss-preset-env": {
+                                        browsers: 'last 2 versions',
+                                    }
+                                }
+                            }
+
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
                             sassOptions: {
                                 outputStyle: "compressed",
                             },
                         },
-                    },
+                    }
                 ],
             },
-        ],
+        ]
     },
-    plugins: [
+    plugins:[
         new MiniCssExtractPlugin({
-            filename:  `${PATHS.assets}css/[name].[contenthash].css`,
+            filename: '[name].[chunkhash:8].css',
         }),
-    ],
+    ]
 };

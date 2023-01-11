@@ -230,10 +230,10 @@ class Filters {
         this._appendCardsFromTemp();
     }
     _addListenersForPrice() {
-        this.fromSlider.addEventListener('input', (e: Event) =>
+        this.fromSlider.addEventListener('input', () =>
             this._addListenersForPriceHandler(/* e.currentTarget as HTMLInputElement */)
         );
-        this.toSlider.addEventListener('input', (e: Event) =>
+        this.toSlider.addEventListener('input', () =>
             this._addListenersForPriceHandler(/* e.currentTarget as HTMLInputElement */)
         );
     }
@@ -242,10 +242,10 @@ class Filters {
         this._appendCardsFromTemp();
     }
     _addListenersForStock() {
-        this.fromSliderStock.addEventListener('input', (e: Event) =>
+        this.fromSliderStock.addEventListener('input', () =>
             this._addListenersForStockHandler(/* e.currentTarget as HTMLInputElement */)
         );
-        this.toSliderStock.addEventListener('input', (e: Event) =>
+        this.toSliderStock.addEventListener('input', () =>
             this._addListenersForStockHandler(/* e.currentTarget as HTMLInputElement */)
         );
     }
