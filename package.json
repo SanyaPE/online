@@ -9,7 +9,9 @@
         "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js",
         "dev": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
         "lint": "eslint . --ext .ts",
-        "lint:fix": "eslint . --fix"
+        "lint:fix": "eslint . --fix",
+        "style": "stylelint . '**/*.scss ",
+        "style:fix": "stylelint . '**/*.scss' --fix"
     },
     "repository": {
         "type": "git",
@@ -35,14 +37,25 @@
         "eslint-webpack-plugin": "^3.2.0",
         "file-loader": "^6.2.0",
         "html-webpack-plugin": "^5.2.0",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.1.0",
         "mini-css-extract-plugin": "^2.7.2",
         "postcss": "^8.4.20",
         "postcss-loader": "^7.0.2",
         "postcss-preset-env": "^7.8.3",
-        "prettier": "2.2.1",
+        "prettier": "^2.2.1",
         "sass": "^1.57.0",
         "sass-loader": "^13.2.0",
         "style-loader": "^2.0.0",
+        "stylelint": "^14.16.1",
+        "stylelint-config-prettier": "^9.0.4",
+        "stylelint-config-prettier-scss": "^0.0.1",
+        "stylelint-config-rational-order": "^0.0.4",
+        "stylelint-config-standard": "^29.0.0",
+        "stylelint-config-standard-scss": "^6.1.0",
+        "stylelint-order": "^6.0.1",
+        "stylelint-prettier": "^2.0.0",
+        "stylelint-scss": "^4.3.0",
         "ts-loader": "^9.4.2",
         "typescript": "^4.9.4",
         "webpack": "^5.75.0",
@@ -52,5 +65,18 @@
     },
     "dependencies": {
         "node-fetch": "^3.3.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.ts": [
+            "eslint --fix"
+        ],
+        "*.scss": [
+            "stylelint --fix"
+        ]
     }
 }

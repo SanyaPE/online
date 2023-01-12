@@ -4,27 +4,32 @@ body {
     flex-direction: column;
     justify-content: space-between;
 }
-main{
-  flex: 1;
+
+main {
+    flex: 1;
 }
+
 .container {
-    max-width: $max-width;
-    margin-left: auto;
     margin-right: auto;
-    padding-left: 20rem;
+    margin-left: auto;
     padding-right: 20rem;
+    padding-left: 20rem;
     width: 100%;
+    max-width: $max-width;
+
     @include respond-to("large") {
-      padding-left: 5rem;
-      padding-right: 5rem;
+        padding-right: 5rem;
+        padding-left: 5rem;
     }
-    @include respond-to("medium"){
-      padding-left: 2rem;
-      padding-right: 2rem;
-      position: relative;
+
+    @include respond-to("medium") {
+        position: relative;
+        padding-right: 2rem;
+        padding-left: 2rem;
     }
-    @include respond-to("mobile"){
-      padding-left: 1rem;
-      padding-right: 1rem;
+
+    @include respond-to("mobile") {
+        padding-right: 1rem;
+        padding-left: 1rem;
     }
 }

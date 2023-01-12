@@ -1,6 +1,9 @@
+dist/**/*.css
 node_modules
 dist
 package-lock.json
 webpack.config.js
 webpack.development.js
 webpack.production.js
+_mixins.scss
+_norma

@@ -17,14 +17,15 @@
         "node": true
     },
     "rules": {
-        "prettier/prettier": "error",
+        "prettier/prettier": [
+            "error", { "endOfLine":"auto" }
+        ],
         "no-debugger": "off",
         "no-console": 1,
         "class-methods-use-this": "off",
         "arrow-body-style": "off",
-        // "prefer-arrow-callback": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "no-undef": 0
     },
-    "ignorePatterns": ["index.html", "webpack.config.js", "webpack.development.js", "webpack.production.js"]
+    "ignorePatterns": ["index.html", "webpack.config.js", "webpack.development.js", "webpack.production.js", "dist"]
 }
